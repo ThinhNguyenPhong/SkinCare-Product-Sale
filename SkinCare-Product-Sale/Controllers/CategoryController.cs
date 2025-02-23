@@ -19,7 +19,7 @@ namespace SkinCare_Product_Sale.Controllers
             return View(categories);
         }
 
-        public async Task<IActionResult> Details(int id)
+        public async Task<IActionResult> Details(string id)
         {
             var category = await _categoryService.GetCategoryByIdAsync(id);
             if (category == null)
@@ -40,13 +40,14 @@ namespace SkinCare_Product_Sale.Controllers
         {
             if (ModelState.IsValid)
             {
+                category.CategoryId = Guid.NewGuid().ToString("N");
                 await _categoryService.AddCategoryAsync(category);
                 return RedirectToAction(nameof(Index));
             }
             return View(category);
         }
 
-        public async Task<IActionResult> Edit(int id)
+        public async Task<IActionResult> Edit(string id)
         {
             var category = await _categoryService.GetCategoryByIdAsync(id);
             if (category == null)
@@ -58,7 +59,7 @@ namespace SkinCare_Product_Sale.Controllers
 
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(int id, Category category)
+        public async Task<IActionResult> Edit(string id, Category category)
         {
             if (id != category.CategoryId)
             {
@@ -73,21 +74,33 @@ namespace SkinCare_Product_Sale.Controllers
             return View(category);
         }
 
-        public async Task<IActionResult> Delete(int id)
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public async Task<IActionResult> Delete(string id)
         {
+            if (string.IsNullOrEmpty(id))
+            {
+                TempData["ErrorMessage"] = "ID không hợp lệ!";
+                return RedirectToAction(nameof(Index));
+            }
+
             var category = await _categoryService.GetCategoryByIdAsync(id);
             if (category == null)
             {
-                return NotFound();
+                TempData["ErrorMessage"] = "Không tìm thấy danh mục!";
+                return RedirectToAction(nameof(Index));
             }
-            return View(category);
-        }
 
-        [HttpPost, ActionName("Delete")]
-        [ValidateAntiForgeryToken]
-        public async Task<IActionResult> DeleteConfirmed(int id)
-        {
-            await _categoryService.DeleteCategoryAsync(id);
+            try
+            {
+                await _categoryService.DeleteCategoryAsync(id);
+                TempData["SuccessMessage"] = "Xóa danh mục thành công!";
+            }
+            catch (Exception ex)
+            {
+                TempData["ErrorMessage"] = "Lỗi khi xóa danh mục: " + ex.Message;
+            }
+
             return RedirectToAction(nameof(Index));
         }
     }

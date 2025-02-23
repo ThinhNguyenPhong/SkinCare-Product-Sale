@@ -5,6 +5,7 @@ using System.Text;
 using System.Threading.Tasks;
 using Data_Access_Layer.Entities;
 using Data_Access_Layer.Repositories.CategoryRepositories;
+using Microsoft.EntityFrameworkCore;
 
 namespace Business_Layer.Services.CategoryServices
 {
@@ -22,7 +23,7 @@ namespace Business_Layer.Services.CategoryServices
             return await _categoryRepository.GetAllCategoriesAsync();
         }
 
-        public async Task<Category> GetCategoryByIdAsync(int categoryId)
+        public async Task<Category> GetCategoryByIdAsync(string categoryId)
         {
             return await _categoryRepository.GetCategoryByIdAsync(categoryId);
         }
@@ -37,7 +38,7 @@ namespace Business_Layer.Services.CategoryServices
             await _categoryRepository.UpdateCategoryAsync(category);
         }
 
-        public async Task DeleteCategoryAsync(int categoryId)
+        public async Task DeleteCategoryAsync(string categoryId)
         {
             await _categoryRepository.DeleteCategoryAsync(categoryId);
         }

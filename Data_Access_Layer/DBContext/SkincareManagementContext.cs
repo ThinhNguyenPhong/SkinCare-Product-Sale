@@ -50,9 +50,12 @@ public partial class SkincareManagementContext : DbContext
 
     public virtual DbSet<Role> Roles { get; set; }
 
-    //    protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
-    //#warning To protect potentially sensitive information in your connection string, you should move it out of source code. You can avoid scaffolding the connection string by using the Name= syntax to read it from configuration - see https://go.microsoft.com/fwlink/?linkid=2131148. For more guidance on storing connection strings, see https://go.microsoft.com/fwlink/?LinkId=723263.
-    //        => optionsBuilder.UseSqlServer("Data Source=.;Initial Catalog=SkincareManagement;Integrated Security=True;Connect Timeout=30;Encrypt=True;Trust Server Certificate=True;Application Intent=ReadWrite;Multi Subnet Failover=False");
+    protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
+#warning To protect potentially sensitive information in your connection string, you should move it out of source code. You can avoid scaffolding the connection string by using the Name= syntax to read it from configuration - see https://go.microsoft.com/fwlink/?linkid=2131148. For more guidance on storing connection strings, see https://go.microsoft.com/fwlink/?LinkId=723263.
+        =>
+        optionsBuilder.UseSqlServer(
+            "Data Source=.;Initial Catalog=SkincareManagement;Integrated Security=True;Connect Timeout=30;Encrypt=True;Trust Server Certificate=True;Application Intent=ReadWrite;Multi Subnet Failover=False"
+        );
 
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
@@ -61,6 +64,8 @@ public partial class SkincareManagementContext : DbContext
             entity.HasKey(e => e.AccountId).HasName("PK__Account__F267251E4DAEF09E");
 
             entity.ToTable("Account");
+
+            entity.HasIndex(e => e.RoleId, "IX_Account_roleId");
 
             entity.Property(e => e.AccountId).ValueGeneratedNever().HasColumnName("accountId");
             entity.Property(e => e.Password).HasMaxLength(50).HasColumnName("password");
@@ -80,6 +85,8 @@ public partial class SkincareManagementContext : DbContext
 
             entity.ToTable("Cart");
 
+            entity.HasIndex(e => e.AccountId, "IX_Cart_accountId");
+
             entity.Property(e => e.CartId).ValueGeneratedNever().HasColumnName("cartId");
             entity.Property(e => e.AccountId).HasColumnName("accountId");
 
@@ -96,9 +103,13 @@ public partial class SkincareManagementContext : DbContext
 
             entity.ToTable("Cart_Item");
 
+            entity.HasIndex(e => e.CartId, "IX_Cart_Item_cartId");
+
+            entity.HasIndex(e => e.ProductId, "IX_Cart_Item_productId");
+
             entity.Property(e => e.CartItemId).ValueGeneratedNever().HasColumnName("cartItemId");
             entity.Property(e => e.CartId).HasColumnName("cartId");
-            entity.Property(e => e.ProductId).HasColumnName("productId");
+            entity.Property(e => e.ProductId).HasMaxLength(50).HasColumnName("productId");
             entity.Property(e => e.Quantity).HasColumnName("quantity");
 
             entity
@@ -120,7 +131,7 @@ public partial class SkincareManagementContext : DbContext
 
             entity.ToTable("Category");
 
-            entity.Property(e => e.CategoryId).ValueGeneratedNever().HasColumnName("categoryId");
+            entity.Property(e => e.CategoryId).HasMaxLength(50).HasColumnName("categoryId");
             entity.Property(e => e.CategoryName).HasMaxLength(50).HasColumnName("categoryName");
         });
 
@@ -129,6 +140,8 @@ public partial class SkincareManagementContext : DbContext
             entity.HasKey(e => e.CustomerId).HasName("PK__Customer__B611CB7DA35A0B5D");
 
             entity.ToTable("Customer");
+
+            entity.HasIndex(e => e.AccountId, "IX_Customer_accountId");
 
             entity.Property(e => e.CustomerId).ValueGeneratedNever().HasColumnName("customerId");
             entity.Property(e => e.AccountId).HasColumnName("accountId");
@@ -149,6 +162,8 @@ public partial class SkincareManagementContext : DbContext
 
             entity.ToTable("Employee");
 
+            entity.HasIndex(e => e.AccountId, "IX_Employee_accountId");
+
             entity.Property(e => e.EmployeeId).ValueGeneratedNever().HasColumnName("employeeId");
             entity.Property(e => e.AccountId).HasColumnName("accountId");
             entity.Property(e => e.FullName).HasMaxLength(100).HasColumnName("fullName");
@@ -166,6 +181,8 @@ public partial class SkincareManagementContext : DbContext
             entity.HasKey(e => e.FeedbackId).HasName("PK__Feedback__2613FD24B05CC7C6");
 
             entity.ToTable("Feedback");
+
+            entity.HasIndex(e => e.AccountId, "IX_Feedback_accountId");
 
             entity.Property(e => e.FeedbackId).ValueGeneratedNever().HasColumnName("feedbackId");
             entity.Property(e => e.AccountId).HasColumnName("accountId");
@@ -185,9 +202,11 @@ public partial class SkincareManagementContext : DbContext
 
             entity.ToTable("Image");
 
+            entity.HasIndex(e => e.ProductId, "IX_Image_productId");
+
             entity.Property(e => e.ImageId).ValueGeneratedNever().HasColumnName("imageId");
             entity.Property(e => e.ImageUrl).HasColumnName("imageUrl");
-            entity.Property(e => e.ProductId).HasColumnName("productId");
+            entity.Property(e => e.ProductId).HasMaxLength(50).HasColumnName("productId");
 
             entity
                 .HasOne(d => d.Product)
@@ -199,6 +218,8 @@ public partial class SkincareManagementContext : DbContext
         modelBuilder.Entity<News>(entity =>
         {
             entity.HasKey(e => e.NewsId).HasName("PK__News__5218041E4AAEFF92");
+
+            entity.HasIndex(e => e.EmployeeId, "IX_News_employeeId");
 
             entity.Property(e => e.NewsId).ValueGeneratedNever().HasColumnName("newsId");
             entity.Property(e => e.Content).HasColumnName("content");
@@ -218,6 +239,8 @@ public partial class SkincareManagementContext : DbContext
 
             entity.ToTable("Order");
 
+            entity.HasIndex(e => e.AccountId, "IX_Order_accountId");
+
             entity.Property(e => e.OrderId).ValueGeneratedNever().HasColumnName("orderId");
             entity.Property(e => e.AccountId).HasColumnName("accountId");
             entity.Property(e => e.OrderDate).HasColumnType("datetime").HasColumnName("orderDate");
@@ -236,13 +259,17 @@ public partial class SkincareManagementContext : DbContext
 
             entity.ToTable("Order_Detail");
 
+            entity.HasIndex(e => e.OrderId, "IX_Order_Detail_orderId");
+
+            entity.HasIndex(e => e.ProductId, "IX_Order_Detail_productId");
+
             entity
                 .Property(e => e.OrderDetailId)
                 .ValueGeneratedNever()
                 .HasColumnName("orderDetailId");
             entity.Property(e => e.OrderId).HasColumnName("orderId");
             entity.Property(e => e.Price).HasColumnType("decimal(10, 2)").HasColumnName("price");
-            entity.Property(e => e.ProductId).HasColumnName("productId");
+            entity.Property(e => e.ProductId).HasMaxLength(50).HasColumnName("productId");
             entity.Property(e => e.Quantity).HasColumnName("quantity");
 
             entity
@@ -263,6 +290,10 @@ public partial class SkincareManagementContext : DbContext
             entity.HasKey(e => e.OrderPromotionId).HasName("PK__Order_Pr__69F6C47326D5E729");
 
             entity.ToTable("Order_Promotion");
+
+            entity.HasIndex(e => e.OrderId, "IX_Order_Promotion_orderId");
+
+            entity.HasIndex(e => e.PromotionId, "IX_Order_Promotion_promotionId");
 
             entity
                 .Property(e => e.OrderPromotionId)
@@ -290,6 +321,8 @@ public partial class SkincareManagementContext : DbContext
 
             entity.ToTable("Payment");
 
+            entity.HasIndex(e => e.OrderId, "IX_Payment_orderId");
+
             entity.Property(e => e.PaymentId).ValueGeneratedNever().HasColumnName("paymentId");
             entity.Property(e => e.OrderId).HasColumnName("orderId");
             entity
@@ -311,6 +344,8 @@ public partial class SkincareManagementContext : DbContext
 
             entity.ToTable("Point");
 
+            entity.HasIndex(e => e.AccountId, "IX_Point_accountId");
+
             entity.Property(e => e.PointId).ValueGeneratedNever().HasColumnName("pointId");
             entity.Property(e => e.AccountId).HasColumnName("accountId");
             entity.Property(e => e.Points).HasColumnName("points");
@@ -328,8 +363,10 @@ public partial class SkincareManagementContext : DbContext
 
             entity.ToTable("Product");
 
-            entity.Property(e => e.ProductId).ValueGeneratedNever().HasColumnName("productId");
-            entity.Property(e => e.CategoryId).HasColumnName("categoryId");
+            entity.HasIndex(e => e.CategoryId, "IX_Product_categoryId");
+
+            entity.Property(e => e.ProductId).HasMaxLength(50).HasColumnName("productId");
+            entity.Property(e => e.CategoryId).HasMaxLength(50).HasColumnName("categoryId");
             entity.Property(e => e.Description).HasColumnName("description");
             entity.Property(e => e.Name).HasMaxLength(100).HasColumnName("name");
             entity.Property(e => e.Price).HasColumnType("decimal(10, 2)").HasColumnName("price");
@@ -347,11 +384,15 @@ public partial class SkincareManagementContext : DbContext
 
             entity.ToTable("Product_Promotion");
 
+            entity.HasIndex(e => e.ProductId, "IX_Product_Promotion_productId");
+
+            entity.HasIndex(e => e.PromotionId, "IX_Product_Promotion_promotionId");
+
             entity
                 .Property(e => e.ProductPromotionId)
                 .ValueGeneratedNever()
                 .HasColumnName("productPromotionId");
-            entity.Property(e => e.ProductId).HasColumnName("productId");
+            entity.Property(e => e.ProductId).HasMaxLength(50).HasColumnName("productId");
             entity.Property(e => e.PromotionId).HasColumnName("promotionId");
 
             entity
@@ -388,6 +429,8 @@ public partial class SkincareManagementContext : DbContext
             entity.HasKey(e => e.PromotionDetailId).HasName("PK__Promotio__74CA3CF1D2EEDDBF");
 
             entity.ToTable("Promotion_Detail");
+
+            entity.HasIndex(e => e.PromotionId, "IX_Promotion_Detail_promotionId");
 
             entity
                 .Property(e => e.PromotionDetailId)

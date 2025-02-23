@@ -7,7 +7,7 @@ public partial class ProductPromotion
 {
     public int ProductPromotionId { get; set; }
 
-    public int? ProductId { get; set; }
+    public string? ProductId { get; set; }
 
     public int? PromotionId { get; set; }
 
