@@ -10,9 +10,9 @@ namespace Data_Access_Layer.Repositories.CategoryRepositories
     public interface ICategoryRepository
     {
         Task<IEnumerable<Category>> GetAllCategoriesAsync();
-        Task<Category> GetCategoryByIdAsync(int categoryId);
+        Task<Category> GetCategoryByIdAsync(string categoryId);
         Task AddCategoryAsync(Category category);
         Task UpdateCategoryAsync(Category category);
-        Task DeleteCategoryAsync(int categoryId);
+        Task DeleteCategoryAsync(string categoryId);
     }
 }

@@ -47,7 +47,7 @@ namespace Data_Access_Layer.Migrations
                     b.HasKey("AccountId")
                         .HasName("PK__Account__F267251E4DAEF09E");
 
-                    b.HasIndex("RoleId");
+                    b.HasIndex(new[] { "RoleId" }, "IX_Account_roleId");
 
                     b.ToTable("Account", (string)null);
                 });
@@ -65,7 +65,7 @@ namespace Data_Access_Layer.Migrations
                     b.HasKey("CartId")
                         .HasName("PK__Cart__415B03B8F725E603");
 
-                    b.HasIndex("AccountId");
+                    b.HasIndex(new[] { "AccountId" }, "IX_Cart_accountId");
 
                     b.ToTable("Cart", (string)null);
                 });
@@ -80,8 +80,9 @@ namespace Data_Access_Layer.Migrations
                         .HasColumnType("int")
                         .HasColumnName("cartId");
 
-                    b.Property<int?>("ProductId")
-                        .HasColumnType("int")
+                    b.Property<string>("ProductId")
+                        .HasMaxLength(50)
+                        .HasColumnType("nvarchar(50)")
                         .HasColumnName("productId");
 
                     b.Property<int>("Quantity")
@@ -91,17 +92,18 @@ namespace Data_Access_Layer.Migrations
                     b.HasKey("CartItemId")
                         .HasName("PK__Cart_Ite__283983B6220EF485");
 
-                    b.HasIndex("CartId");
+                    b.HasIndex(new[] { "CartId" }, "IX_Cart_Item_cartId");
 
-                    b.HasIndex("ProductId");
+                    b.HasIndex(new[] { "ProductId" }, "IX_Cart_Item_productId");
 
                     b.ToTable("Cart_Item", (string)null);
                 });
 
             modelBuilder.Entity("Data_Access_Layer.Entities.Category", b =>
                 {
-                    b.Property<int>("CategoryId")
-                        .HasColumnType("int")
+                    b.Property<string>("CategoryId")
+                        .HasMaxLength(50)
+                        .HasColumnType("nvarchar(50)")
                         .HasColumnName("categoryId");
 
                     b.Property<string>("CategoryName")
@@ -145,7 +147,7 @@ namespace Data_Access_Layer.Migrations
                     b.HasKey("CustomerId")
                         .HasName("PK__Customer__B611CB7DA35A0B5D");
 
-                    b.HasIndex("AccountId");
+                    b.HasIndex(new[] { "AccountId" }, "IX_Customer_accountId");
 
                     b.ToTable("Customer", (string)null);
                 });
@@ -174,7 +176,7 @@ namespace Data_Access_Layer.Migrations
                     b.HasKey("EmployeeId")
                         .HasName("PK__Employee__C134C9C1F2DDE5B8");
 
-                    b.HasIndex("AccountId");
+                    b.HasIndex(new[] { "AccountId" }, "IX_Employee_accountId");
 
                     b.ToTable("Employee", (string)null);
                 });
@@ -201,7 +203,7 @@ namespace Data_Access_Layer.Migrations
                     b.HasKey("FeedbackId")
                         .HasName("PK__Feedback__2613FD24B05CC7C6");
 
-                    b.HasIndex("AccountId");
+                    b.HasIndex(new[] { "AccountId" }, "IX_Feedback_accountId");
 
                     b.ToTable("Feedback", (string)null);
                 });
@@ -217,14 +219,15 @@ namespace Data_Access_Layer.Migrations
                         .HasColumnType("nvarchar(max)")
                         .HasColumnName("imageUrl");
 
-                    b.Property<int?>("ProductId")
-                        .HasColumnType("int")
+                    b.Property<string>("ProductId")
+                        .HasMaxLength(50)
+                        .HasColumnType("nvarchar(50)")
                         .HasColumnName("productId");
 
                     b.HasKey("ImageId")
                         .HasName("PK__Image__336E9B559269C996");
 
-                    b.HasIndex("ProductId");
+                    b.HasIndex(new[] { "ProductId" }, "IX_Image_productId");
 
                     b.ToTable("Image", (string)null);
                 });
@@ -252,7 +255,7 @@ namespace Data_Access_Layer.Migrations
                     b.HasKey("NewsId")
                         .HasName("PK__News__5218041E4AAEFF92");
 
-                    b.HasIndex("EmployeeId");
+                    b.HasIndex(new[] { "EmployeeId" }, "IX_News_employeeId");
 
                     b.ToTable("News");
                 });
@@ -280,7 +283,7 @@ namespace Data_Access_Layer.Migrations
                     b.HasKey("OrderId")
                         .HasName("PK__Order__0809335D65E1E68A");
 
-                    b.HasIndex("AccountId");
+                    b.HasIndex(new[] { "AccountId" }, "IX_Order_accountId");
 
                     b.ToTable("Order", (string)null);
                 });
@@ -299,8 +302,9 @@ namespace Data_Access_Layer.Migrations
                         .HasColumnType("decimal(10, 2)")
                         .HasColumnName("price");
 
-                    b.Property<int?>("ProductId")
-                        .HasColumnType("int")
+                    b.Property<string>("ProductId")
+                        .HasMaxLength(50)
+                        .HasColumnType("nvarchar(50)")
                         .HasColumnName("productId");
 
                     b.Property<int>("Quantity")
@@ -310,9 +314,9 @@ namespace Data_Access_Layer.Migrations
                     b.HasKey("OrderDetailId")
                         .HasName("PK__Order_De__E4FEDE4A234C9FC4");
 
-                    b.HasIndex("OrderId");
+                    b.HasIndex(new[] { "OrderId" }, "IX_Order_Detail_orderId");
 
-                    b.HasIndex("ProductId");
+                    b.HasIndex(new[] { "ProductId" }, "IX_Order_Detail_productId");
 
                     b.ToTable("Order_Detail", (string)null);
                 });
@@ -334,9 +338,9 @@ namespace Data_Access_Layer.Migrations
                     b.HasKey("OrderPromotionId")
                         .HasName("PK__Order_Pr__69F6C47326D5E729");
 
-                    b.HasIndex("OrderId");
+                    b.HasIndex(new[] { "OrderId" }, "IX_Order_Promotion_orderId");
 
-                    b.HasIndex("PromotionId");
+                    b.HasIndex(new[] { "PromotionId" }, "IX_Order_Promotion_promotionId");
 
                     b.ToTable("Order_Promotion", (string)null);
                 });
@@ -364,7 +368,7 @@ namespace Data_Access_Layer.Migrations
                     b.HasKey("PaymentId")
                         .HasName("PK__Payment__A0D9EFC67F613395");
 
-                    b.HasIndex("OrderId");
+                    b.HasIndex(new[] { "OrderId" }, "IX_Payment_orderId");
 
                     b.ToTable("Payment", (string)null);
                 });
@@ -386,19 +390,21 @@ namespace Data_Access_Layer.Migrations
                     b.HasKey("PointId")
                         .HasName("PK__Point__4CB435AEA4B2E229");
 
-                    b.HasIndex("AccountId");
+                    b.HasIndex(new[] { "AccountId" }, "IX_Point_accountId");
 
                     b.ToTable("Point", (string)null);
                 });
 
             modelBuilder.Entity("Data_Access_Layer.Entities.Product", b =>
                 {
-                    b.Property<int>("ProductId")
-                        .HasColumnType("int")
+                    b.Property<string>("ProductId")
+                        .HasMaxLength(50)
+                        .HasColumnType("nvarchar(50)")
                         .HasColumnName("productId");
 
-                    b.Property<int?>("CategoryId")
-                        .HasColumnType("int")
+                    b.Property<string>("CategoryId")
+                        .HasMaxLength(50)
+                        .HasColumnType("nvarchar(50)")
                         .HasColumnName("categoryId");
 
                     b.Property<string>("Description")
@@ -418,7 +424,7 @@ namespace Data_Access_Layer.Migrations
                     b.HasKey("ProductId")
                         .HasName("PK__Product__2D10D16A8537E9D8");
 
-                    b.HasIndex("CategoryId");
+                    b.HasIndex(new[] { "CategoryId" }, "IX_Product_categoryId");
 
                     b.ToTable("Product", (string)null);
                 });
@@ -429,8 +435,9 @@ namespace Data_Access_Layer.Migrations
                         .HasColumnType("int")
                         .HasColumnName("productPromotionId");
 
-                    b.Property<int?>("ProductId")
-                        .HasColumnType("int")
+                    b.Property<string>("ProductId")
+                        .HasMaxLength(50)
+                        .HasColumnType("nvarchar(50)")
                         .HasColumnName("productId");
 
                     b.Property<int?>("PromotionId")
@@ -440,9 +447,9 @@ namespace Data_Access_Layer.Migrations
                     b.HasKey("ProductPromotionId")
                         .HasName("PK__Product___3F1B3D11EDCBEC9A");
 
-                    b.HasIndex("ProductId");
+                    b.HasIndex(new[] { "ProductId" }, "IX_Product_Promotion_productId");
 
-                    b.HasIndex("PromotionId");
+                    b.HasIndex(new[] { "PromotionId" }, "IX_Product_Promotion_promotionId");
 
                     b.ToTable("Product_Promotion", (string)null);
                 });
@@ -495,7 +502,7 @@ namespace Data_Access_Layer.Migrations
                     b.HasKey("PromotionDetailId")
                         .HasName("PK__Promotio__74CA3CF1D2EEDDBF");
 
-                    b.HasIndex("PromotionId");
+                    b.HasIndex(new[] { "PromotionId" }, "IX_Promotion_Detail_promotionId");
 
                     b.ToTable("Promotion_Detail", (string)null);
                 });

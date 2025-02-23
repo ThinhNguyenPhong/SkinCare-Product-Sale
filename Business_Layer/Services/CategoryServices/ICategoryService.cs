@@ -5,9 +5,9 @@ namespace Business_Layer.Services.CategoryServices
     public interface ICategoryService
     {
         Task<IEnumerable<Category>> GetAllCategoriesAsync();
-        Task<Category> GetCategoryByIdAsync(int categoryId);
+        Task<Category> GetCategoryByIdAsync(string categoryId);
         Task AddCategoryAsync(Category category);
         Task UpdateCategoryAsync(Category category);
-        Task DeleteCategoryAsync(int categoryId);
+        Task DeleteCategoryAsync(string categoryId);
     }
 }

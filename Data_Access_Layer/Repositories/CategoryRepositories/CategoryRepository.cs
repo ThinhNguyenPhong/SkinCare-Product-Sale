@@ -23,7 +23,7 @@ namespace Data_Access_Layer.Repositories.CategoryRepositories
             return await _context.Categories.ToListAsync();
         }
 
-        public async Task<Category> GetCategoryByIdAsync(int categoryId)
+        public async Task<Category> GetCategoryByIdAsync(string categoryId)
         {
             return await _context.Categories.FindAsync(categoryId);
         }
@@ -40,7 +40,7 @@ namespace Data_Access_Layer.Repositories.CategoryRepositories
             await _context.SaveChangesAsync();
         }
 
-        public async Task DeleteCategoryAsync(int categoryId)
+        public async Task DeleteCategoryAsync(string categoryId)
         {
             var category = await _context.Categories.FindAsync(categoryId);
             if (category != null)

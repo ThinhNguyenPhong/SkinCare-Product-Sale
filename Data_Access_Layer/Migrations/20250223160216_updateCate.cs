@@ -6,7 +6,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 namespace Data_Access_Layer.Migrations
 {
     /// <inheritdoc />
-    public partial class init : Migration
+    public partial class updateCate : Migration
     {
         /// <inheritdoc />
         protected override void Up(MigrationBuilder migrationBuilder)
@@ -15,7 +15,7 @@ namespace Data_Access_Layer.Migrations
                 name: "Category",
                 columns: table => new
                 {
-                    categoryId = table.Column<int>(type: "int", nullable: false),
+                    categoryId = table.Column<string>(type: "nvarchar(50)", maxLength: 50, nullable: false),
                     categoryName = table.Column<string>(type: "nvarchar(50)", maxLength: 50, nullable: false)
                 },
                 constraints: table =>
@@ -54,11 +54,11 @@ namespace Data_Access_Layer.Migrations
                 name: "Product",
                 columns: table => new
                 {
-                    productId = table.Column<int>(type: "int", nullable: false),
+                    productId = table.Column<string>(type: "nvarchar(50)", maxLength: 50, nullable: false),
                     name = table.Column<string>(type: "nvarchar(100)", maxLength: 100, nullable: false),
                     price = table.Column<decimal>(type: "decimal(10,2)", nullable: false),
                     description = table.Column<string>(type: "nvarchar(max)", nullable: true),
-                    categoryId = table.Column<int>(type: "int", nullable: true)
+                    categoryId = table.Column<string>(type: "nvarchar(50)", maxLength: 50, nullable: true)
                 },
                 constraints: table =>
                 {
@@ -112,7 +112,7 @@ namespace Data_Access_Layer.Migrations
                 columns: table => new
                 {
                     imageId = table.Column<int>(type: "int", nullable: false),
-                    productId = table.Column<int>(type: "int", nullable: true),
+                    productId = table.Column<string>(type: "nvarchar(50)", maxLength: 50, nullable: true),
                     imageUrl = table.Column<string>(type: "nvarchar(max)", nullable: false)
                 },
                 constraints: table =>
@@ -130,7 +130,7 @@ namespace Data_Access_Layer.Migrations
                 columns: table => new
                 {
                     productPromotionId = table.Column<int>(type: "int", nullable: false),
-                    productId = table.Column<int>(type: "int", nullable: true),
+                    productId = table.Column<string>(type: "nvarchar(50)", maxLength: 50, nullable: true),
                     promotionId = table.Column<int>(type: "int", nullable: true)
                 },
                 constraints: table =>
@@ -266,7 +266,7 @@ namespace Data_Access_Layer.Migrations
                 {
                     cartItemId = table.Column<int>(type: "int", nullable: false),
                     cartId = table.Column<int>(type: "int", nullable: true),
-                    productId = table.Column<int>(type: "int", nullable: true),
+                    productId = table.Column<string>(type: "nvarchar(50)", maxLength: 50, nullable: true),
                     quantity = table.Column<int>(type: "int", nullable: false)
                 },
                 constraints: table =>
@@ -309,7 +309,7 @@ namespace Data_Access_Layer.Migrations
                 {
                     orderDetailId = table.Column<int>(type: "int", nullable: false),
                     orderId = table.Column<int>(type: "int", nullable: true),
-                    productId = table.Column<int>(type: "int", nullable: true),
+                    productId = table.Column<string>(type: "nvarchar(50)", maxLength: 50, nullable: true),
                     quantity = table.Column<int>(type: "int", nullable: false),
                     price = table.Column<decimal>(type: "decimal(10,2)", nullable: false)
                 },
