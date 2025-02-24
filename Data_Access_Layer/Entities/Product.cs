@@ -5,9 +5,9 @@ namespace Data_Access_Layer.Entities;
 
 public partial class Product
 {
-    public string ProductId { get; set; } = null!;
+    public string? ProductId { get; set; }
 
-    public string Name { get; set; } = null!;
+    public string? Name { get; set; }
 
     public decimal Price { get; set; }
 
