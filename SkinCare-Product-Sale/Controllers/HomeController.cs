@@ -1,4 +1,5 @@
 using System.Diagnostics;
+using Business_Layer.Services.ProductServices;
 using Microsoft.AspNetCore.Mvc;
 using SkinCare_Product_Sale.Models;
 
@@ -7,15 +8,18 @@ namespace SkinCare_Product_Sale.Controllers
     public class HomeController : Controller
     {
         private readonly ILogger<HomeController> _logger;
+        private readonly IProductService _productService;
 
-        public HomeController(ILogger<HomeController> logger)
+        public HomeController(IProductService productService, ILogger<HomeController> logger)
         {
             _logger = logger;
+            _productService = productService;
         }
 
-        public IActionResult Index()
+        public async Task<IActionResult> Index()
         {
-            return View();
+            var products = await _productService.GetAllProductsAsync();
+            return View(products);
         }
 
         public IActionResult Privacy()

@@ -11,6 +11,8 @@ public partial class Product
 
     public decimal Price { get; set; }
 
+    public bool IsActive { get; set; } = true; // Default to active
+
     public string? Description { get; set; }
 
     public string? CategoryId { get; set; }
@@ -22,6 +24,7 @@ public partial class Product
     public virtual ICollection<Image> Images { get; set; } = new List<Image>();
 
     public virtual ICollection<OrderDetail> OrderDetails { get; set; } = new List<OrderDetail>();
+    public virtual ICollection<Feedback> Feedbacks { get; set; } = new List<Feedback>();
 
     public virtual ICollection<ProductPromotion> ProductPromotions { get; set; } =
         new List<ProductPromotion>();

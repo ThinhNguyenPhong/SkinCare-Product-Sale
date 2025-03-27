@@ -1,38 +1,48 @@
 ﻿@model IEnumerable<Data_Access_Layer.Entities.Product>
 
 @{
+    Layout = "_LayoutContact&News";
     ViewData["Title"] = "Danh sách sản phẩm";
 }
-
+<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet" />
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
 <h2>@ViewData["Title"]</h2>
 
-<p>
-    <a asp-action="Create" class="btn btn-primary">Thêm sản phẩm</a>
-</p>
+<div class="main container">
+    <p>
+        <a asp-action="Create" class="btn btn-primary">Thêm sản phẩm</a>
+    </p>
 
-<table class="table">
-    <thead>
-        <tr>
-            <th>Tên sản phẩm</th>
-            <th>Giá</th>
-            <th>Mô tả</th>
-            <th>Danh mục</th>
-            <th>Hành động</th>
-        </tr>
-    </thead>
-    <tbody>
-        @foreach (var item in Model)
-        {
+    <table class="table">
+        <thead>
             <tr>
-                <td>@item.Name</td>
-                <td>@item.Price</td>
-                <td>@item.Description</td>
-                <td>@item.CategoryId</td>
-                <td>
-                    <a asp-action="Edit" asp-route-id="@item.ProductId" class="btn btn-warning">Sửa</a>
-                    <a asp-action="Delete" asp-route-id="@item.ProductId" class="btn btn-danger">Xóa</a>
-                </td>
+                <th>Tên sản phẩm</th>
+                <th>Giá</th>
+                <th>Mô tả</th>
+                <th>Danh mục</th>
+                <th>Hành động</th>
             </tr>
-        }
-    </tbody>
-</table>
+        </thead>
+        <tbody>
+            @foreach (var item in Model)
+            {
+                <tr>
+                    <td>@item.Name</td>
+                    <td>@item.Price.ToString("N0")</td>
+                    <td>@item.Description</td>
+                    <td>@item?.Category?.CategoryName</td>
+                    <td>
+                        <a asp-action="Edit" asp-route-id="@item.ProductId" class="btn btn-warning">Sửa</a>
+                        <form asp-action="ToggleStatus" asp-controller="Product" method="post" style="display: inline;">
+                            <input type="hidden" name="id" value="@item.ProductId" />
+                            <button type="submit" class="btn @(item.IsActive ? "btn-secondary" : "btn-success") btn-sm">
+                                @(item.IsActive ? "Ẩn" : "Khôi phục")
+                            </button>
+                        </form>
+                    </td>
+                </tr>
+            }
+        </tbody>
+    </table>
+
+</div>

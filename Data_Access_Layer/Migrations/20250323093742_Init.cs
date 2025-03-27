@@ -6,7 +6,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 namespace Data_Access_Layer.Migrations
 {
     /// <inheritdoc />
-    public partial class updateCate : Migration
+    public partial class Init : Migration
     {
         /// <inheritdoc />
         protected override void Up(MigrationBuilder migrationBuilder)
@@ -27,7 +27,8 @@ namespace Data_Access_Layer.Migrations
                 name: "Promotion",
                 columns: table => new
                 {
-                    promotionId = table.Column<int>(type: "int", nullable: false),
+                    promotionId = table.Column<int>(type: "int", nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1"),
                     name = table.Column<string>(type: "nvarchar(100)", maxLength: 100, nullable: false),
                     discount = table.Column<decimal>(type: "decimal(5,2)", nullable: false),
                     startDate = table.Column<DateTime>(type: "datetime", nullable: false),
@@ -42,7 +43,8 @@ namespace Data_Access_Layer.Migrations
                 name: "Role",
                 columns: table => new
                 {
-                    roleId = table.Column<int>(type: "int", nullable: false),
+                    roleId = table.Column<int>(type: "int", nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1"),
                     roleName = table.Column<string>(type: "nvarchar(50)", maxLength: 50, nullable: false)
                 },
                 constraints: table =>
@@ -55,7 +57,7 @@ namespace Data_Access_Layer.Migrations
                 columns: table => new
                 {
                     productId = table.Column<string>(type: "nvarchar(50)", maxLength: 50, nullable: false),
-                    name = table.Column<string>(type: "nvarchar(100)", maxLength: 100, nullable: false),
+                    name = table.Column<string>(type: "nvarchar(100)", maxLength: 100, nullable: true),
                     price = table.Column<decimal>(type: "decimal(10,2)", nullable: false),
                     description = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     categoryId = table.Column<string>(type: "nvarchar(50)", maxLength: 50, nullable: true)
@@ -74,7 +76,8 @@ namespace Data_Access_Layer.Migrations
                 name: "Promotion_Detail",
                 columns: table => new
                 {
-                    promotionDetailId = table.Column<int>(type: "int", nullable: false),
+                    promotionDetailId = table.Column<int>(type: "int", nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1"),
                     promotionId = table.Column<int>(type: "int", nullable: true),
                     detailDescription = table.Column<string>(type: "nvarchar(max)", nullable: false)
                 },
@@ -92,7 +95,8 @@ namespace Data_Access_Layer.Migrations
                 name: "Account",
                 columns: table => new
                 {
-                    accountId = table.Column<int>(type: "int", nullable: false),
+                    accountId = table.Column<int>(type: "int", nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1"),
                     username = table.Column<string>(type: "nvarchar(50)", maxLength: 50, nullable: false),
                     password = table.Column<string>(type: "nvarchar(50)", maxLength: 50, nullable: false),
                     roleId = table.Column<int>(type: "int", nullable: true)
@@ -111,7 +115,8 @@ namespace Data_Access_Layer.Migrations
                 name: "Image",
                 columns: table => new
                 {
-                    imageId = table.Column<int>(type: "int", nullable: false),
+                    imageId = table.Column<int>(type: "int", nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1"),
                     productId = table.Column<string>(type: "nvarchar(50)", maxLength: 50, nullable: true),
                     imageUrl = table.Column<string>(type: "nvarchar(max)", nullable: false)
                 },
@@ -129,7 +134,8 @@ namespace Data_Access_Layer.Migrations
                 name: "Product_Promotion",
                 columns: table => new
                 {
-                    productPromotionId = table.Column<int>(type: "int", nullable: false),
+                    productPromotionId = table.Column<int>(type: "int", nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1"),
                     productId = table.Column<string>(type: "nvarchar(50)", maxLength: 50, nullable: true),
                     promotionId = table.Column<int>(type: "int", nullable: true)
                 },
@@ -152,7 +158,8 @@ namespace Data_Access_Layer.Migrations
                 name: "Cart",
                 columns: table => new
                 {
-                    cartId = table.Column<int>(type: "int", nullable: false),
+                    cartId = table.Column<int>(type: "int", nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1"),
                     accountId = table.Column<int>(type: "int", nullable: true)
                 },
                 constraints: table =>
@@ -169,7 +176,8 @@ namespace Data_Access_Layer.Migrations
                 name: "Customer",
                 columns: table => new
                 {
-                    customerId = table.Column<int>(type: "int", nullable: false),
+                    customerId = table.Column<int>(type: "int", nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1"),
                     accountId = table.Column<int>(type: "int", nullable: true),
                     fullName = table.Column<string>(type: "nvarchar(100)", maxLength: 100, nullable: false),
                     email = table.Column<string>(type: "nvarchar(100)", maxLength: 100, nullable: true),
@@ -189,7 +197,8 @@ namespace Data_Access_Layer.Migrations
                 name: "Employee",
                 columns: table => new
                 {
-                    employeeId = table.Column<int>(type: "int", nullable: false),
+                    employeeId = table.Column<int>(type: "int", nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1"),
                     accountId = table.Column<int>(type: "int", nullable: true),
                     fullName = table.Column<string>(type: "nvarchar(100)", maxLength: 100, nullable: false),
                     position = table.Column<string>(type: "nvarchar(50)", maxLength: 50, nullable: true)
@@ -208,7 +217,8 @@ namespace Data_Access_Layer.Migrations
                 name: "Feedback",
                 columns: table => new
                 {
-                    feedbackId = table.Column<int>(type: "int", nullable: false),
+                    feedbackId = table.Column<int>(type: "int", nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1"),
                     accountId = table.Column<int>(type: "int", nullable: true),
                     content = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     rating = table.Column<int>(type: "int", nullable: true)
@@ -227,7 +237,8 @@ namespace Data_Access_Layer.Migrations
                 name: "Order",
                 columns: table => new
                 {
-                    orderId = table.Column<int>(type: "int", nullable: false),
+                    orderId = table.Column<int>(type: "int", nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1"),
                     accountId = table.Column<int>(type: "int", nullable: true),
                     orderDate = table.Column<DateTime>(type: "datetime", nullable: false),
                     status = table.Column<string>(type: "nvarchar(50)", maxLength: 50, nullable: false)
@@ -246,7 +257,8 @@ namespace Data_Access_Layer.Migrations
                 name: "Point",
                 columns: table => new
                 {
-                    pointId = table.Column<int>(type: "int", nullable: false),
+                    pointId = table.Column<int>(type: "int", nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1"),
                     accountId = table.Column<int>(type: "int", nullable: true),
                     points = table.Column<int>(type: "int", nullable: false)
                 },
@@ -264,7 +276,8 @@ namespace Data_Access_Layer.Migrations
                 name: "Cart_Item",
                 columns: table => new
                 {
-                    cartItemId = table.Column<int>(type: "int", nullable: false),
+                    cartItemId = table.Column<int>(type: "int", nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1"),
                     cartId = table.Column<int>(type: "int", nullable: true),
                     productId = table.Column<string>(type: "nvarchar(50)", maxLength: 50, nullable: true),
                     quantity = table.Column<int>(type: "int", nullable: false)
@@ -288,7 +301,8 @@ namespace Data_Access_Layer.Migrations
                 name: "News",
                 columns: table => new
                 {
-                    newsId = table.Column<int>(type: "int", nullable: false),
+                    newsId = table.Column<int>(type: "int", nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1"),
                     title = table.Column<string>(type: "nvarchar(200)", maxLength: 200, nullable: false),
                     content = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     employeeId = table.Column<int>(type: "int", nullable: true)
@@ -307,7 +321,8 @@ namespace Data_Access_Layer.Migrations
                 name: "Order_Detail",
                 columns: table => new
                 {
-                    orderDetailId = table.Column<int>(type: "int", nullable: false),
+                    orderDetailId = table.Column<int>(type: "int", nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1"),
                     orderId = table.Column<int>(type: "int", nullable: true),
                     productId = table.Column<string>(type: "nvarchar(50)", maxLength: 50, nullable: true),
                     quantity = table.Column<int>(type: "int", nullable: false),
@@ -332,7 +347,8 @@ namespace Data_Access_Layer.Migrations
                 name: "Order_Promotion",
                 columns: table => new
                 {
-                    orderPromotionId = table.Column<int>(type: "int", nullable: false),
+                    orderPromotionId = table.Column<int>(type: "int", nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1"),
                     orderId = table.Column<int>(type: "int", nullable: true),
                     promotionId = table.Column<int>(type: "int", nullable: true)
                 },
@@ -355,7 +371,8 @@ namespace Data_Access_Layer.Migrations
                 name: "Payment",
                 columns: table => new
                 {
-                    paymentId = table.Column<int>(type: "int", nullable: false),
+                    paymentId = table.Column<int>(type: "int", nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1"),
                     orderId = table.Column<int>(type: "int", nullable: true),
                     paymentMethod = table.Column<string>(type: "nvarchar(50)", maxLength: 50, nullable: false),
                     paymentDate = table.Column<DateTime>(type: "datetime", nullable: false)

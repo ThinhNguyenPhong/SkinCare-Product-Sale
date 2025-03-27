@@ -1,0 +1,322 @@
+﻿@model Data_Access_Layer.Entities.Product
+
+@{
+    Layout = "_LayoutContact&News";
+    ViewData["Title"] = "Chi tiết sản phẩm";
+    var username = Context.Session.GetString("Username");
+}
+
+<div class="main">
+    <div class="product-detail">
+        <div class="row">
+            <!-- Ảnh sản phẩm -->
+            <div class="col l-6 m-12 s-12">
+                <div class="product-detail__image" style="background-image: url('@(Model.Images.FirstOrDefault()?.ImageUrl ?? "/Layout/assets/img/product/default.jpg")');">
+                </div>
+            </div>
+
+            <!-- Thông tin sản phẩm -->
+            <div class="col l-6 m-12 s-12">
+                <div class="product__info">
+                    <h1 class="product__name">@Model.Name</h1>
+
+                    <div class="product__price">
+                        <div class="price__old">@Math.Round(Model.Price * 1.2m).ToString("N0") đ</div>
+                        <div class="price__new">@Model.Price.ToString("N0") đ</div>
+                    </div>
+
+                    <div class="product__desc">
+                        <h3>Mô tả sản phẩm</h3>
+                        <p>@(string.IsNullOrWhiteSpace(Model.Description) ? "Chưa có mô tả." : Model.Description)</p>
+                    </div>
+
+                    <div class="product__actions">
+                        <a href="@Url.Action("Add", "Cart", new { productId = Model.ProductId })" class="btn btn--primary addToCart">
+                            Thêm vào giỏ hàng
+                        </a>
+                        @if (username != null)
+                        {
+                            <a href="/Payment/VnpayPayNow?productId=@Model.ProductId&totalAmount=@Model.Price" class="btn btn--buyNow">
+                                Mua ngay
+                            </a>
+                        }
+
+                    </div>
+                    <!-- Chính sách mua hàng -->
+                    <div class="product__policy">
+                        <h3>Chính sách bán hàng</h3>
+                        <ul class="product__policy-list">
+                            <li> Cam kết hàng chính hãng</li>
+                            <li> Giao hàng toàn quốc</li>
+                            <li> Đổi trả trong 7 ngày</li>
+                            <li> Hỗ trợ 24/7</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div style="padding: 3rem; font-size: 12px">
+        @if (TempData["FeedbackSuccess"] != null)
+        {
+            <div class="alert alert-success" style="color: green">@TempData["FeedbackSuccess"]</div>
+        }
+        @if (TempData["FeedbackError"] != null)
+        {
+            <div class="alert alert-danger" style="color: red">@TempData["FeedbackError"]</div>
+        }
+        <div class="product__feedback">
+            <p style="font-size: 24px!important; font-weight:500">Đánh giá sản phẩm</p>
+
+            @if (Model.Feedbacks.Any())
+            {
+                <ul class="feedback__list">
+                    @foreach (var feedback in Model.Feedbacks.OrderByDescending(f => f.FeedbackId))
+                    {
+                        <li class="feedback__item">
+                            <strong>@(feedback.Account?.Username ?? "Khách hàng")</strong> -
+                            <span class="feedback__rating">@($"{feedback.Rating}⭐")</span>
+                            <p>@feedback.Content</p>
+                        </li>
+                    }
+                </ul>
+            }
+            else
+            {
+                <p>Chưa có đánh giá nào. Hãy là người đầu tiên!</p>
+            }
+        </div>
+        @if (@username != null)
+        {
+            <div class="feedback__form">
+                <p style="font-size: 16px!important">Thêm đánh giá của bạn</p>
+                <form method="post" action="@Url.Action("AddFeedback", "Product")">
+                    <input type="hidden" name="ProductId" value="@Model.ProductId" />
+
+                    <label for="rating">Đánh giá (1-5 sao):</label>
+                    <select name="Rating" id="rating" style="font-size: 1.4rem!important" required>
+                        <option value="1">1⭐</option>
+                        <option value="2">2⭐</option>
+                        <option value="3">3⭐</option>
+                        <option value="4">4⭐</option>
+                        <option value="5">5⭐</option>
+                    </select>
+
+                    <label for="content">Nội dung đánh giá:</label>
+                    <textarea name="Content" id="content" rows="3" required placeholder="Viết đánh giá của bạn..."></textarea>
+
+                    <button type="submit" class="btn btn--primary">Gửi đánh giá</button>
+                </form>
+            </div>
+        }
+        else
+        {
+            <p style="font-size: 13px!important; margin-top: 20px">(*) Vui lòng đăng nhập để đánh giá sản phẩm</p>
+        }
+    </div>
+
+</div>
+
+<style>
+    .product-detail {
+        background: #fff;
+        border-radius: 12px;
+        box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
+        padding: 20px;
+    }
+
+    /* Hình ảnh sản phẩm */
+    .product-detail__image {
+        width: 500px;
+        min-height: 600px;
+        background-size: cover;
+        background-position: center;
+        border-radius: 10px;
+        border: 1px solid #eaeaea;
+        box-shadow: inset 0 0 5px rgba(0, 0, 0, 0.05);
+        margin: auto;
+    }
+
+    /* Tên sản phẩm */
+    .product__name {
+        font-size: 28px;
+        font-weight: 700;
+        margin-bottom: 15px;
+        color: #2c3e50;
+        padding-top: 20px;
+        padding-bottom: 30px;
+    }
+
+    /* Giá */
+    .product__price {
+        display: flex;
+        align-items: baseline;
+        justify-content: flex-start;
+        gap: 15px;
+        margin-bottom: 20px;
+    }
+
+    .price__old {
+        font-size: 18px;
+        text-decoration: line-through;
+        color: #999;
+    }
+
+    .price__new {
+        font-size: 24px;
+        font-weight: 600;
+        color: #e74c3c;
+    }
+
+    /* Mô tả */
+    .product__desc h3 {
+        font-size: 20px;
+        margin-bottom: 10px;
+        color: #16a085;
+    }
+
+    .product__desc p {
+        font-size: 16px;
+        line-height: 1.6;
+    }
+
+    /* Số lượng */
+    .product__quantity {
+        margin: 20px 0;
+    }
+
+        .product__quantity label {
+            margin-right: 10px;
+            font-size: 16px;
+        }
+
+        .product__quantity input {
+            width: 60px;
+            padding: 5px 10px;
+            border: 1px solid #ccc;
+            border-radius: 6px;
+        }
+
+    /* Nút hành động */
+    .product__actions {
+        margin-top: 15px;
+        display: flex;
+        gap: 15px;
+    }
+
+    .btn {
+        padding: 10px 20px;
+        border: none;
+        border-radius: 8px;
+        font-size: 16px;
+        cursor: pointer;
+        transition: background 0.3s ease;
+        text-decoration: none;
+        text-align: center;
+    }
+
+    .btn--primary {
+        background-color: #27ae60;
+        color: white;
+    }
+
+        .btn--primary:hover {
+            background-color: #219150;
+        }
+
+    .btn--buyNow {
+        background-color: #e67e22;
+        color: white;
+    }
+
+        .btn--buyNow:hover {
+            background-color: #cf711c;
+        }
+
+    /* Chính sách */
+    .product__policy {
+        margin-top: 40px;
+        padding-top: 20px;
+        border-top: 1px solid #eee;
+    }
+
+        .product__policy h3 {
+            font-size: 20px;
+            margin-bottom: 15px;
+            color: #2980b9;
+        }
+
+    .product__policy-list {
+        list-style: none;
+        line-height: 40px;
+    }
+
+        .product__policy-list li {
+            font-size: 16px;
+            color: #555;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .product__policy-list i {
+            color: #16a085;
+            font-size: 18px;
+        }
+
+    .product__feedback {
+        margin-top: 30px;
+    }
+
+    .feedback__list {
+        list-style: none;
+        padding: 0;
+    }
+
+    .feedback__item {
+        border-bottom: 1px solid #ddd;
+        padding: 10px 0;
+    }
+
+    .feedback__rating {
+        color: #ff9900;
+        font-weight: bold;
+    }
+
+    .feedback__form {
+        margin-top: 20px;
+    }
+
+        .feedback__form label {
+            font-weight: bold;
+            display: block;
+            margin-top: 10px;
+        }
+
+        .feedback__form textarea {
+            width: 100%;
+            padding: 8px;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+        }
+
+        .feedback__form select {
+            padding: 5px;
+            border-radius: 4px;
+        }
+
+        .feedback__form button {
+            margin-top: 10px;
+            background-color: #ff6600;
+            color: white;
+            padding: 10px 15px;
+            border: none;
+            cursor: pointer;
+            border-radius: 4px;
+        }
+
+            .feedback__form button:hover {
+                background-color: #ff3300;
+            }
+
+</style>

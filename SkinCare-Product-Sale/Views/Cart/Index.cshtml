@@ -1,152 +1,212 @@
-﻿@{
+﻿@model List<Data_Access_Layer.Entities.CartItem>
+@{
     Layout = "_LayoutContact&News";
+    decimal totalPrice = 0;
+    var username = Context.Session.GetString("Username");
 }
+
 <div class="main">
     <div class="grid wide">
         <h3 class="main__notify">
             <div class="main__notify-icon">
                 <i class="fas fa-check"></i>
-                <!-- <i class="fas fa-times"></i> -->
             </div>
             <div class="main__notify-text">Giỏ hàng đã được cập nhật.</div>
         </h3>
-        <div class="row">
-            <div class="col l-8 m-12 s-12">
-                <div class="main__cart">
-                    <div class="row title">
-                        <div class="col l-1 m-1 s-0">Chọn</div>
-                        <div class="col l-4 m-4 s-8">Sản phẩm</div>
-                        <div class="col l-2 m-2 s-0">Giá</div>
-                        <div class="col l-2 m-2 s-0">Số lượng</div>
-                        <div class="col l-2 m-2 s-4">Tổng</div>
-                        <div class="col l-1 m-1 s-0">Xóa</div>
-                    </div>
-                    <div class="row item">
-                        <div class="col l-1 m-1 s-0">
-                            <input type="checkbox" name="a">
-                        </div>
-                        <div class="col l-4 m-4 s-8">
-                            <div class="main__cart-product">
-                                <img src="./assets/img/product/product2.jpg" alt="">
-                                <div class="name">Azrouel dress variable Azrouel dress variable</div>
-                            </div>
-                        </div>
-                        <div class="col l-2 m-2 s-0">
-                            <div class="main__cart-price">476.000 đ</div>
-                        </div>
-                        <div class="col l-2 m-2 s-0">
-                            <div class="buttons_added">
-                                <input class="minus is-form" type="button" value="-" onclick="minusProduct()">
-                                <input aria-label="quantity" class="input-qty" max="10" min="1" name="" type="number" value="1">
-                                <input class="plus is-form" type="button" value="+" onclick="plusProduct()">
-                            </div>
-                        </div>
-                        <div class="col l-2 m-2 s-4">
-                            <div class="main__cart-price">476.000 đ</div>
-                        </div>
-                        <div class="col l-1 m-1 s-0">
-                            <span class="main__cart-icon">
-                                <i class="far fa-times-circle "></i>
-                            </span>
-                        </div>
-                    </div>
-                    <div class="row item">
-                        <div class="col l-1 m-1 s-0">
-                            <input type="checkbox" name="a">
-                        </div>
-                        <div class="col l-4 m-4 s-8">
-                            <div class="main__cart-product">
-                                <img src="./assets/img/product/product2.jpg" alt="">
-                                <div class="name">Azrouel dress variable Azrouel dress variable</div>
-                            </div>
-                        </div>
-                        <div class="col l-2 m-2 s-0">
-                            <div class="main__cart-price">476.000 đ</div>
-                        </div>
-                        <div class="col l-2 m-2 s-0">
-                            <div class="buttons_added">
-                                <input class="minus is-form" type="button" value="-" onclick="minusProduct()">
-                                <input aria-label="quantity" class="input-qty" max="10" min="1" name="" type="number" value="1">
-                                <input class="plus is-form" type="button" value="+" onclick="plusProduct()">
-                            </div>
-                        </div>
-                        <div class="col l-2 m-2 s-4">
-                            <div class="main__cart-price">476.000 đ</div>
-                        </div>
-                        <div class="col l-1 m-1 s-0">
-                            <span class="main__cart-icon">
-                                <i class="far fa-times-circle "></i>
-                            </span>
-                        </div>
-                    </div>
-                    <div class="row item">
-                        <div class="col l-1 m-1 s-0">
-                            <input type="checkbox" name="a">
-                        </div>
-                        <div class="col l-4 m-4 s-8">
-                            <div class="main__cart-product">
-                                <img src="./assets/img/product/product2.jpg" alt="">
-                                <div class="name">Azrouel dress variable Azrouel dress variable</div>
-                            </div>
-                        </div>
-                        <div class="col l-2 m-2 s-0">
-                            <div class="main__cart-price">476.000 đ</div>
-                        </div>
-                        <div class="col l-2 m-2 s-0">
-                            <div class="buttons_added">
-                                <input class="minus is-form" type="button" value="-" onclick="minusProduct()">
-                                <input aria-label="quantity" class="input-qty" max="10" min="1" name="" type="number" value="1">
-                                <input class="plus is-form" type="button" value="+" onclick="plusProduct()">
-                            </div>
-                        </div>
-                        <div class="col l-2 m-2 s-4">
-                            <div class="main__cart-price">476.000 đ</div>
-                        </div>
-                        <div class="col l-1 m-1 s-0">
-                            <span class="main__cart-icon">
-                                <i class="far fa-times-circle "></i>
-                            </span>
-                        </div>
-                    </div>
-                    <div class="btn btn--default">
-                        Cập nhật giỏ hàng
-                    </div>
+        @if (Model == null || !Model.Any())
+        {
+            <div class="row">
+                <div class="col l-12" style="min-height:400px">
+                    <p style="font-size: 24px; padding: 12px; text-align:center">Chưa có sản phẩm nào trong giỏ hàng.</p>
                 </div>
             </div>
-            <div class="col l-4 m-12 s-12">
-                <div class="main__pay">
-                    <div class="main__pay-title">Tổng số lượng</div>
-                    <div class="pay-info">
-                        <div class="main__pay-text">
-                            Tổng phụ
-                        </div>
-                        <div class="main__pay-price">
-                            1,120,000 ₫
-                        </div>
-                    </div>
-                    <div class="pay-info">
-                        <div class="main__pay-text">
-                            Giao hàng
-                        </div>
-                        <div class="main__pay-text">
-                            Giao hàng miễn phí
+        }
+        else
+        {
+        <div class="row">
+            <div class="col l-8 m-12 s-12">
+                    <div class="main__cart">
+                        <div class="row title">
+                            <div class="col l-4 m-4 s-8">Sản phẩm</div>
+                            <div class="col l-2 m-2 s-0">Giá</div>
+                            <div class="col l-2 m-2 s-0">Số lượng</div>
+                            <div class="col l-2 m-2 s-4">Tổng</div>
+                            <div class="col l-2 m-2 s-0">Xóa</div>
                         </div>
 
+                        @foreach (var item in Model)
+                        {
+                            var itemTotal = item.Product.Price * item.Quantity;
+                            totalPrice += itemTotal;
+
+                            <div class="row item">
+                                <div class="col l-4 m-4 s-8">
+                                    <div class="main__cart-product">
+                                        <img src="@item.Product.Images.First().ImageUrl" alt="" style="width: 80px; height: 80px;">
+                                        <div class="name">@item.Product.Name</div>
+                                    </div>
+                                </div>
+                                <div class="col l-2 m-2 s-0">
+                                    <div class="main__cart-price">@item.Product.Price.ToString("N0") đ</div>
+                                </div>
+                                <div class="col l-2 m-2 s-0">
+                                        <form asp-action="UpdateQuantity" method="post" class="update-form">
+                                            <input type="hidden" name="id" value="@item.ProductId" />
+
+                                            <div class="buttons_added">
+                                                <button type="submit" name="action" value="decrease" class="btn-qty"
+                                                @(item.Quantity <= 1 ? "disabled" : "")>
+                                                    –
+                                                </button>
+
+                                                <input class="input-qty" name="quantity" type="number" value="@item.Quantity" min="1" />
+
+                                                <button type="submit" name="action" value="increase" class="btn-qty">+</button>
+                                            </div>
+                                        </form>
+
+                                </div>
+                                <div class="col l-2 m-2 s-4">
+                                    <div class="main__cart-price">@itemTotal.ToString("N0") đ</div>
+                                </div>
+                                <div class="col l-2 m-2 s-0">
+                                    <a asp-action="Remove" asp-route-id="@item.ProductId" class="main__cart-icon">
+                                        <i class="far fa-times-circle"></i>
+                                    </a>
+                                </div>
+                            </div>
+                        }
+
+                        <div class="btn btn--default">
+                            <a asp-action="Index">Làm mới giỏ hàng</a>
+                        </div>
+                    </div>
+            </div>
+
+            <div class="col l-4 m-12 s-12">
+                <div class="main__pay">
+                    <div class="main__pay-title">Tổng cộng</div>
+                    <div class="pay-info">
+                        <div class="main__pay-text">Tổng phụ</div>
+                        <div class="main__pay-price">@totalPrice.ToString("N0") đ</div>
                     </div>
                     <div class="pay-info">
-                        <div class="main__pay-text">
-                            Tổng thành tiền
-                        </div>
-                        <div class="main__pay-price">
-                            1,120,000 ₫
-                        </div>
+                        <div class="main__pay-text">Giao hàng</div>
+                        <div class="main__pay-text">Miễn phí</div>
                     </div>
-                    <div class="btn btn--default orange">Tiến hành thanh toán</div>
-                    <div class="main__pay-title">Phiếu ưu đãi</div>
-                    <input type="text" class="form-control">
-                    <div class="btn btn--default">Áp dụng</div>
+                    <div class="pay-info">
+                        <div class="main__pay-text">Tổng thành tiền</div>
+                        <div class="main__pay-price" id="totalPrice">@totalPrice.ToString("N0") đ</div>
+                    </div>
+                        @if (username == null)
+                        {
+                            <span class="header__account-username footer__link" style="color: #000000;">
+                                Vui lòng đăng nhập để thanh toán
+                            </span>
+                        }
+                        else
+                        {
+                            <div id="openModalPaymentBtn" class="btn btn--default orange">Tiến hành thanh toán</div>
+                        }
                 </div>
             </div>
         </div>
+        }
     </div>
 </div>
+<!-- Modal xác nhận thanh toán -->
+<div id="confirmModal" class="modal">
+    <div class="modal-content">
+        <span class="close">&times;</span>
+        <h3>Bạn có chắc chắn muốn thanh toán không?</h3>
+        <div class="modal-actions">
+            <button id="confirmPayBtn" class="btn btn--default orange">Xác nhận</button>
+            <button id="cancelBtn" class="btn btn--default">Huỷ</button>
+        </div>
+    </div>
+</div>
+
+<style>
+    .modal {
+        display: none;
+        position: fixed;
+        z-index: 999;
+        left: 0;
+        top: 0;
+        width: 100%;
+        height: 100%;
+        background-color: rgba(0,0,0,0.5);
+    }
+
+    .modal-content {
+        background-color: #fff;
+        margin: 15% auto;
+        padding: 20px;
+        border-radius: 8px;
+        width: 400px;
+        text-align: center;
+    }
+
+    .close {
+        float: right;
+        font-size: 24px;
+        cursor: pointer;
+    }
+
+    .modal-actions button {
+        margin: 10px;
+    }
+    .buttons_added {
+        display: flex;
+        align-items: center;
+        gap: 5px;
+    }
+
+    .input-qty {
+        width: 50px;
+        text-align: center;
+        padding: 5px;
+        border: 1px solid #ccc;
+        border-radius: 4px;
+    }
+
+    .btn-qty {
+        background-color: #007bff;
+        color: white;
+        border: none;
+        width: 30px;
+        height: 30px;
+        font-size: 18px;
+        border-radius: 4px;
+        cursor: pointer;
+    }
+
+        .btn-qty:hover {
+            background-color: #0056b3;
+        }
+
+        .btn-qty:disabled {
+            background-color: #ccc;
+            cursor: not-allowed;
+        }
+
+</style>
+<script>
+    const modal = document.getElementById("confirmModal");
+    const openModalPaymentBtn = document.getElementById("openModalPaymentBtn");
+    const closeBtn = document.querySelector(".close");
+    const cancelBtn = document.getElementById("cancelBtn");
+    const confirmPayBtn = document.getElementById("confirmPayBtn");
+
+    openModalPaymentBtn.addEventListener("click", () => modal.style.display = "block");
+    closeBtn.addEventListener("click", () => modal.style.display = "none");
+    cancelBtn.addEventListener("click", () => modal.style.display = "none");
+
+    window.onclick = function (event) {
+        if (event.target == modal) modal.style.display = "none";
+    }
+
+    confirmPayBtn.addEventListener("click", function () {
+        window.location.href = '@Url.Action("VnpayCheckout", "Payment")' + '?totalAmount=' + @totalPrice;
+    });
+</script>

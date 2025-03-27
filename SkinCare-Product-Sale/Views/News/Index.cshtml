@@ -1,126 +1,49 @@
-﻿@{
+﻿@model IEnumerable<Data_Access_Layer.Entities.News>
+
+@{
     Layout = "_LayoutContact&News";
+    ViewData["Title"] = "Danh sách tin tức";
+    var role = ViewBag.UserRole as string;
 }
-<div class="main">
+<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet" />
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
+
+<div class="main container">
+    <h2>@ViewData["Title"]</h2>
+
     <div class="grid wide">
-        <div class="main__taskbar">
-            <div class="main__breadcrumb">
-                <div class="breadcrumb__item">
-                    <a href="#" class="breadcrumb__link">Trang chủ</a>
-                </div>
-                <div class="breadcrumb__item">
-                    <a href="#" class="breadcrumb__link">Danh sách tin tức</a>
-                </div>
-            </div>
-        </div>
+        @if (role == "Staff" || role == "Manager")
+        {
+            <p>
+                <a asp-action="Create" class="btn btn-primary">Thêm tin tức</a>
+            </p>
+        }
+
         <div class="list-new">
-            <div href="#" class="new-item">
-                <a href="#" class="new-item__img">
-                    <img src="https://www.kosmebox.com/image/cache/data/BLOG/Nhung-item-makeup-nha-etude-house-gia-hat-de/Nhung-item-makeup-nha-etude-house-gia-hat-de-7-9-225x225.jpg" alt="">
-                </a>
-                <div class="new-item__body">
-                    <a href="#" class="new-item__title">
-                        Những Item makeup nhà Etude House giá hạt dẻ, chất miễn đùa
-                        Những Item makeup nhà Etude House giá hạt dẻ, chất miễn đùa
-                    </a>
-                    <p class="new-item__time"> Ngày đăng: 27/5/2020</p>
-                    <p class="new-item__description">
-                        Những Item makeup nhà Etude House giá hạt dẻ, chất miễn đùa Không phải là những item makeup mới. Thậm chí nếu không nói là lâu đời. Nhưng ở thời điểm hiện tại, chúng vẫn không lỗi thời. Rất lì lợm. Bao nhiêu dòng makeup mới ra
-                        vẫn không làm chúng ngao ngán. Và tất nhiên, nàng nào muốn Những Item makeup nhà Etude House giá hạt dẻ, chất miễn đùa Không phải là những item makeup mới. Thậm chí nếu không nói là lâu đời. Nhưng ở thời điểm hiện tại, chúng
-                        vẫn không lỗi thời. Rất lì lợm. Bao nhiêu dòng makeup mới ra vẫn không làm chúng ngao ngán. Và tất nhiên, nàng nào muốn Những Item makeup nhà Etude House giá hạt dẻ, chất miễn đùa Không phải là những item makeup mới. Thậm chí
-                        nếu không nói là lâu đời. Nhưng ở thời điểm hiện tại, chúng vẫn không lỗi thời. Rất lì lợm. Bao nhiêu dòng makeup mới ra vẫn không làm chúng ngao ngán. Và tất nhiên, nàng nào muốn Những Item makeup nhà Etude House giá hạt dẻ,
-                        chất miễn đùa Không phải là những item makeup mới. Thậm chí nếu không nói là lâu đời. Nhưng ở thời điểm hiện tại, chúng vẫn không lỗi thời. Rất lì lợm. Bao nhiêu dòng makeup mới ra vẫn không làm chúng ngao ngán. Và tất nhiên,
-                        nàng nào muốn đep chuẩn mực thì mời vào team.Không khác biệt nhiều so với các dòng makeup Hàn Quốc khác
-                    </p>
-                    <a href="#" class="btn btn--default">Xem thêm</a>
+            @foreach (var item in Model)
+            {
+                <div class="new-item">
+                    <div class="new-item__body">
+                        <a href="@Url.Action("Details", "News", new { id = item.NewsId })" class="new-item__title">
+                            @item.Title
+                        </a>
+                        <p class="new-item__time">Ngày đăng: 21/03/2025</p>
+                        <p class="new-item__description">
+                            @(item.Content.Length > 300 ? item.Content.Substring(0, 300) + "..." : item.Content)
+                        </p>
+
+                        @if (role == "Staff" || role == "Manager")
+                        {
+                            <a href="@Url.Action("Edit", "News", new { id = item.NewsId })" class="btn btn-warning btn-sm">Chỉnh sửa</a>
+
+                            <form asp-action="Delete" asp-controller="News" method="post" onsubmit="return confirm('Bạn có chắc muốn xóa tin tức này?');" style="display: inline;">
+                                <input type="hidden" name="id" value="@item.NewsId" />
+                                <button type="submit" class="btn btn-danger btn-sm">Xóa</button>
+                            </form>
+                        }
+                    </div>
                 </div>
-            </div>
-            <div href="#" class="new-item">
-                <a href="#" class="new-item__img">
-                    <img src="https://www.kosmebox.com/image/cache/data/BLOG/Nhung-item-makeup-nha-etude-house-gia-hat-de/Nhung-item-makeup-nha-etude-house-gia-hat-de-7-9-225x225.jpg" alt="">
-                </a>
-                <div class="new-item__body">
-                    <a href="#" class="new-item__title">
-                        Những Item makeup nhà Etude House giá hạt dẻ, chất miễn đùa
-                        Những Item makeup nhà Etude House giá hạt dẻ, chất miễn đùa
-                    </a>
-                    <p class="new-item__time"> Ngày đăng: 27/5/2020</p>
-                    <p class="new-item__description">
-                        Những Item makeup nhà Etude House giá hạt dẻ, chất miễn đùa Không phải là những item makeup mới. Thậm chí nếu không nói là lâu đời. Nhưng ở thời điểm hiện tại, chúng vẫn không lỗi thời. Rất lì lợm. Bao nhiêu dòng makeup mới ra
-                        vẫn không làm chúng ngao ngán. Và tất nhiên, nàng nào muốn Những Item makeup nhà Etude House giá hạt dẻ, chất miễn đùa Không phải là những item makeup mới. Thậm chí nếu không nói là lâu đời. Nhưng ở thời điểm hiện tại, chúng
-                        vẫn không lỗi thời. Rất lì lợm. Bao nhiêu dòng makeup mới ra vẫn không làm chúng ngao ngán. Và tất nhiên, nàng nào muốn Những Item makeup nhà Etude House giá hạt dẻ, chất miễn đùa Không phải là những item makeup mới. Thậm chí
-                        nếu không nói là lâu đời. Nhưng ở thời điểm hiện tại, chúng vẫn không lỗi thời. Rất lì lợm. Bao nhiêu dòng makeup mới ra vẫn không làm chúng ngao ngán. Và tất nhiên, nàng nào muốn Những Item makeup nhà Etude House giá hạt dẻ,
-                        chất miễn đùa Không phải là những item makeup mới. Thậm chí nếu không nói là lâu đời. Nhưng ở thời điểm hiện tại, chúng vẫn không lỗi thời. Rất lì lợm. Bao nhiêu dòng makeup mới ra vẫn không làm chúng ngao ngán. Và tất nhiên,
-                        nàng nào muốn đep chuẩn mực thì mời vào team.Không khác biệt nhiều so với các dòng makeup Hàn Quốc khác
-                    </p>
-                    <a href="#" class="btn btn--default">Xem thêm</a>
-                </div>
-            </div>
-            <div href="#" class="new-item">
-                <a href="#" class="new-item__img">
-                    <img src="https://www.kosmebox.com/image/cache/data/BLOG/Nhung-item-makeup-nha-etude-house-gia-hat-de/Nhung-item-makeup-nha-etude-house-gia-hat-de-7-9-225x225.jpg" alt="">
-                </a>
-                <div class="new-item__body">
-                    <a href="#" class="new-item__title">
-                        Những Item makeup nhà Etude House giá hạt dẻ, chất miễn đùa
-                        Những Item makeup nhà Etude House giá hạt dẻ, chất miễn đùa
-                    </a>
-                    <p class="new-item__time"> Ngày đăng: 27/5/2020</p>
-                    <p class="new-item__description">
-                        Những Item makeup nhà Etude House giá hạt dẻ, chất miễn đùa Không phải là những item makeup mới. Thậm chí nếu không nói là lâu đời. Nhưng ở thời điểm hiện tại, chúng vẫn không lỗi thời. Rất lì lợm. Bao nhiêu dòng makeup mới ra
-                        vẫn không làm chúng ngao ngán. Và tất nhiên, nàng nào muốn Những Item makeup nhà Etude House giá hạt dẻ, chất miễn đùa Không phải là những item makeup mới. Thậm chí nếu không nói là lâu đời. Nhưng ở thời điểm hiện tại, chúng
-                        vẫn không lỗi thời. Rất lì lợm. Bao nhiêu dòng makeup mới ra vẫn không làm chúng ngao ngán. Và tất nhiên, nàng nào muốn Những Item makeup nhà Etude House giá hạt dẻ, chất miễn đùa Không phải là những item makeup mới. Thậm chí
-                        nếu không nói là lâu đời. Nhưng ở thời điểm hiện tại, chúng vẫn không lỗi thời. Rất lì lợm. Bao nhiêu dòng makeup mới ra vẫn không làm chúng ngao ngán. Và tất nhiên, nàng nào muốn Những Item makeup nhà Etude House giá hạt dẻ,
-                        chất miễn đùa Không phải là những item makeup mới. Thậm chí nếu không nói là lâu đời. Nhưng ở thời điểm hiện tại, chúng vẫn không lỗi thời. Rất lì lợm. Bao nhiêu dòng makeup mới ra vẫn không làm chúng ngao ngán. Và tất nhiên,
-                        nàng nào muốn đep chuẩn mực thì mời vào team.Không khác biệt nhiều so với các dòng makeup Hàn Quốc khác
-                    </p>
-                    <a href="#" class="btn btn--default">Xem thêm</a>
-                </div>
-            </div>
-            <div href="#" class="new-item">
-                <a href="#" class="new-item__img">
-                    <img src="https://www.kosmebox.com/image/cache/data/BLOG/Nhung-item-makeup-nha-etude-house-gia-hat-de/Nhung-item-makeup-nha-etude-house-gia-hat-de-7-9-225x225.jpg" alt="">
-                </a>
-                <div class="new-item__body">
-                    <a href="#" class="new-item__title">
-                        Những Item makeup nhà Etude House giá hạt dẻ, chất miễn đùa
-                        Những Item makeup nhà Etude House giá hạt dẻ, chất miễn đùa
-                    </a>
-                    <p class="new-item__time"> Ngày đăng: 27/5/2020</p>
-                    <p class="new-item__description">
-                        Những Item makeup nhà Etude House giá hạt dẻ, chất miễn đùa Không phải là những item makeup mới. Thậm chí nếu không nói là lâu đời. Nhưng ở thời điểm hiện tại, chúng vẫn không lỗi thời. Rất lì lợm. Bao nhiêu dòng makeup mới ra
-                        vẫn không làm chúng ngao ngán. Và tất nhiên, nàng nào muốn Những Item makeup nhà Etude House giá hạt dẻ, chất miễn đùa Không phải là những item makeup mới. Thậm chí nếu không nói là lâu đời. Nhưng ở thời điểm hiện tại, chúng
-                        vẫn không lỗi thời. Rất lì lợm. Bao nhiêu dòng makeup mới ra vẫn không làm chúng ngao ngán. Và tất nhiên, nàng nào muốn Những Item makeup nhà Etude House giá hạt dẻ, chất miễn đùa Không phải là những item makeup mới. Thậm chí
-                        nếu không nói là lâu đời. Nhưng ở thời điểm hiện tại, chúng vẫn không lỗi thời. Rất lì lợm. Bao nhiêu dòng makeup mới ra vẫn không làm chúng ngao ngán. Và tất nhiên, nàng nào muốn Những Item makeup nhà Etude House giá hạt dẻ,
-                        chất miễn đùa Không phải là những item makeup mới. Thậm chí nếu không nói là lâu đời. Nhưng ở thời điểm hiện tại, chúng vẫn không lỗi thời. Rất lì lợm. Bao nhiêu dòng makeup mới ra vẫn không làm chúng ngao ngán. Và tất nhiên,
-                        nàng nào muốn đep chuẩn mực thì mời vào team.Không khác biệt nhiều so với các dòng makeup Hàn Quốc khác
-                    </p>
-                    <a href="#" class="btn btn--default">Xem thêm</a>
-                </div>
-            </div>
-            <div href="#" class="new-item">
-                <a href="#" class="new-item__img">
-                    <img src="https://www.kosmebox.com/image/cache/data/BLOG/Nhung-item-makeup-nha-etude-house-gia-hat-de/Nhung-item-makeup-nha-etude-house-gia-hat-de-7-9-225x225.jpg" alt="">
-                </a>
-                <div class="new-item__body">
-                    <a href="#" class="new-item__title">
-                        Những Item makeup nhà Etude House giá hạt dẻ, chất miễn đùa
-                        Những Item makeup nhà Etude House giá hạt dẻ, chất miễn đùa
-                    </a>
-                    <p class="new-item__time"> Ngày đăng: 27/5/2020</p>
-                    <p class="new-item__description">
-                        Những Item makeup nhà Etude House giá hạt dẻ, chất miễn đùa Không phải là những item makeup mới. Thậm chí nếu không nói là lâu đời. Nhưng ở thời điểm hiện tại, chúng vẫn không lỗi thời. Rất lì lợm. Bao nhiêu dòng makeup mới ra
-                        vẫn không làm chúng ngao ngán. Và tất nhiên, nàng nào muốn Những Item makeup nhà Etude House giá hạt dẻ, chất miễn đùa Không phải là những item makeup mới. Thậm chí nếu không nói là lâu đời. Nhưng ở thời điểm hiện tại, chúng
-                        vẫn không lỗi thời. Rất lì lợm. Bao nhiêu dòng makeup mới ra vẫn không làm chúng ngao ngán. Và tất nhiên, nàng nào muốn Những Item makeup nhà Etude House giá hạt dẻ, chất miễn đùa Không phải là những item makeup mới. Thậm chí
-                        nếu không nói là lâu đời. Nhưng ở thời điểm hiện tại, chúng vẫn không lỗi thời. Rất lì lợm. Bao nhiêu dòng makeup mới ra vẫn không làm chúng ngao ngán. Và tất nhiên, nàng nào muốn Những Item makeup nhà Etude House giá hạt dẻ,
-                        chất miễn đùa Không phải là những item makeup mới. Thậm chí nếu không nói là lâu đời. Nhưng ở thời điểm hiện tại, chúng vẫn không lỗi thời. Rất lì lợm. Bao nhiêu dòng makeup mới ra vẫn không làm chúng ngao ngán. Và tất nhiên,
-                        nàng nào muốn đep chuẩn mực thì mời vào team.Không khác biệt nhiều so với các dòng makeup Hàn Quốc khác
-                    </p>
-                    <a href="#" class="btn btn--default">Xem thêm</a>
-                </div>
-            </div>
+            }
         </div>
     </div>
 </div>
-
-

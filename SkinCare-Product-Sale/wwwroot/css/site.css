@@ -20,3 +20,43 @@ html {
 body {
   margin-bottom: 60px;
 }
+.news-detail {
+    max-width: 800px;
+    margin: 40px auto;
+    background: #fff;
+    padding: 20px;
+    border-radius: 10px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+    .news-detail h2 {
+        font-size: 28px;
+        color: #333;
+        margin-bottom: 15px;
+        font-weight: bold;
+    }
+
+.news-content {
+    font-size: 18px;
+    line-height: 1.6;
+    color: #555;
+    margin-bottom: 20px;
+}
+
+    .news-content p {
+        margin-bottom: 10px;
+    }
+
+.btn-secondary {
+    background-color: #6c757d;
+    border: none;
+    padding: 10px 15px;
+    border-radius: 5px;
+    text-decoration: none;
+    color: white;
+    transition: background 0.3s ease-in-out;
+}
+
+    .btn-secondary:hover {
+        background-color: #5a6268;
+    }

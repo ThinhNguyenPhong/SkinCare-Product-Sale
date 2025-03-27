@@ -1,4 +1,8 @@
-﻿<!DOCTYPE html>
+﻿@{
+    var username = Context.Session.GetString("Username");
+    var role = Context.Session.GetString("Role");
+}
+<!DOCTYPE html>
 <html lang="en">
 <!-- https://cocoshop.vn/ -->
 <!-- http://mauweb.monamedia.net/vanihome/ -->
@@ -27,7 +31,7 @@
 </head>
 
 <body>
-   <!-- Header-->
+    <!-- Header-->
     <div class="header scrolling" id="myHeader">
         <div class="grid wide">
             <div class="header__top">
@@ -48,62 +52,68 @@
                     </div>
                 </div>
                 <div class="header__account">
-                    <a href="#my-Login" class="header__account-login">Đăng Nhập</a>
-                    <a href="#my-Register" class="header__account-register">Đăng Kí</a>
-                </div>
-                <!-- Cart -->
-                <div class="header__cart have" href="#">
-                    <a asp-controller="Cart" asp-action="index" class="header__cart-link">
-                        <div class="header__cart have">
-                            <i class="fas fa-shopping-basket"></i>
-                            <div class="header__cart-amount">3</div>
-                        </div>
-                    </a>
-                    <div class="header__cart-wrap">
-                        <ul class="order__list">
-                            <li class="item-order">
-                                <div class="order-wrap">
-                                    <a href="product.html" class="order-img">
-                                        <img src="./assets/img/product/product1.jpg" alt="">
-                                    </a>
-                                    <div class="order-main">
-                                        <a href="product.html" class="order-main-name">Áo sơ mi  caro kèm belt caro kèm belt Áo sơ mi caro kèm belt</a>
-                                        <div class="order-main-price">2 x 45,000 ₫</div>
-                                    </div>
-                                    <a href="product.html" class="order-close"><i class="far fa-times-circle"></i></a>
-                                </div>
-                            </li>
-                            <li class="item-order">
-                                <div class="order-wrap">
-                                    <a href="product.html" class="order-img">
-                                        <img src="./assets/img/product/product1.jpg" alt="">
-                                    </a>
-                                    <div class="order-main">
-                                        <a href="product.html" class="order-main-name">Áo sơ mi  caro kèm belt caro kèm belt Áo sơ mi caro kèm belt</a>
-                                        <div class="order-main-price">2 x 45,000 ₫</div>
-                                    </div>
-                                    <a href="product.html" class="order-close"><i class="far fa-times-circle"></i></a>
-                                </div>
-                            </li>
-                            <li class="item-order">
-                                <div class="order-wrap">
-                                    <a href="product.html" class="order-img">
-                                        <img src="./assets/img/product/product1.jpg" alt="">
-                                    </a>
-                                    <div class="order-main">
-                                        <a href="product.html" class="order-main-name">Áo sơ mi  caro kèm belt caro kèm belt Áo sơ mi caro kèm belt</a>
-                                        <div class="order-main-price">2 x 45,000 ₫</div>
-                                    </div>
-                                    <a href="product.html" class="order-close"><i class="far fa-times-circle"></i></a>
+                    @if (username != null)
+                    {
+                        <ul class="header__nav-list" style="margin-bottom: 0 !important">
+                            <li class="header__nav-item" style="color:#000000">
+                                <a href="#" class="header__nav-link" style="line-height: 2;text-shadow: -1px -1px 0 black, 2px 0px 0 black, 0px 2px 0 black, 2px 2px 0 black;">Welcome, @username</a>
+                                <div class="sub-nav-wrap grid wide">
+                                    <ul class="sub-nav">
+                                        @if (role == "Customer")
+                                        {
+                                            <li class="sub-nav__item">
+                                                <a href="/OrderHistory" class="sub-nav__link">Lịch sử mua hàng</a>
+                                            </li>
+                                            <li class="sub-nav__item">
+                                                <a href="/Profile" class="sub-nav__link">Hồ sơ cá nhân</a>
+                                            </li>
+                                        }
+                                        else if (role == "Staff")
+                                        {
+                                            <li class="sub-nav__item">
+                                                <a href="/News" class="sub-nav__link">Quản lý tin tức</a>
+                                            </li>
+                                            <li class="sub-nav__item">
+                                                <a href="/CustomerManagement" class="sub-nav__link">Quản lý đơn hàng</a>
+                                            </li>
+                                            <li class="sub-nav__item">
+                                                <a href="/Product" class="sub-nav__link">Quản lý sản phẩm</a>
+                                            </li>
+                                        }
+                                        else if (role == "Manager")
+                                        {
+                                            <li class="sub-nav__item">
+                                                <a href="/Product" class="sub-nav__link">Quản lý sản phẩm</a>
+                                            </li>
+                                            <li class="sub-nav__item">
+                                                <a href="/CustomerManagement" class="sub-nav__link">Quản lý khách hàng</a>
+                                            </li>
+                                            <li class="sub-nav__item">
+                                                <a href="/StaffManagement" class="sub-nav__link">Quản lý nhân viên</a>
+                                            </li>
+                                        }
+
+                                        <li class="sub-nav__item">
+                                            <a href="#" onclick="logout()" class="sub-nav__link">Đăng Xuất</a>
+                                        </li>
+                                    </ul>
                                 </div>
                             </li>
                         </ul>
-                        <div class="total-money">Tổng cộng: 120.000đ</div>
-                        <a href="cart.html" class="btn btn--default cart-btn">Xem giỏ hàng</a>
-                        <a href="pay.html" class="btn btn--default cart-btn orange">Thanh toán</a>
-                        <!-- norcart -->
-                        <!-- <img class="header__cart-img-nocart" src="http://www.giaybinhduong.com/images/empty-cart.png" alt=""> -->
-                    </div>
+                    }
+                    else
+                    {
+                        <a href="#my-Login" class="header__account-login">Đăng Nhập</a>
+                        <a href="#my-Register" class="header__account-register">Đăng Kí</a>
+                    }
+                </div>
+                <!-- Cart -->
+                <div class="header__cart have" href="#">
+                    <a href="/Cart" class="header__cart-link">
+                        <div class="header__cart have">
+                            <i class="fas fa-shopping-basket"></i>
+                        </div>
+                    </a>
                 </div>
             </div>
         </div>
@@ -132,9 +142,7 @@
                 <li class="header__nav-item index">
                     <a asp-controller="Home" asp-action="index" class="header__nav-link">Trang chủ</a>
                 </li>
-                <li class="header__nav-item">
-                    <a asp-controller="product" asp-action="index" class="header__nav-link">Giới Thiệu</a>
-                </li>
+
                 <li class="header__nav-item">
                     <a asp-controller="ListProduct" asp-action="index" class="header__nav-link">Sản Phẩm</a>
                     <div class="sub-nav-wrap grid wide">
@@ -230,7 +238,7 @@
         </div>
     </div>
 
-  @RenderBody()
+    @RenderBody()
     <!-- Footer-->
     <div class="footer">
         <div class="grid wide">
@@ -333,61 +341,78 @@
 
     <!-- Modal Form -->
     <div class="ModalForm">
+        <!-- Modal Đăng Ký -->
         <div class="modal" id="my-Register">
             <a href="#" class="overlay-close"></a>
             <div class="authen-modal register">
                 <h3 class="authen-modal__title">Đăng Kí</h3>
+
                 <div class="form-group">
-                    <label for="account" class="form-label">Họ Tên</label>
-                    <input id="account" name="account" type="text" class="form-control">
-                    <span class="form-message">Không hợp lệ !</span>
-                </div>
-                <div class="form-group">
-                    <label for="password" class="form-label">Tài khoản Email *</label>
-                    <input id="password" name="password" type="text" class="form-control">
+                    <label for="username" class="form-label">Tên Đăng Nhập *</label>
+                    <input id="username" name="username" type="text" class="form-control" placeholder="Nhập tên đăng nhập" />
                     <span class="form-message"></span>
                 </div>
+
+                <div class="form-group">
+                    <label for="fullName" class="form-label">Họ và Tên *</label>
+                    <input id="fullName" name="fullName" type="text" class="form-control" placeholder="Nhập họ và tên" />
+                    <span class="form-message"></span>
+                </div>
+
+                <div class="form-group">
+                    <label for="email" class="form-label">Email *</label>
+                    <input id="email" name="email" type="email" class="form-control" placeholder="Nhập email" />
+                    <span class="form-message"></span>
+                </div>
+
+                <div class="form-group">
+                    <label for="phone" class="form-label">Số Điện Thoại *</label>
+                    <input id="phone" name="phone" type="tel" class="form-control" placeholder="Nhập số điện thoại" />
+                    <span class="form-message"></span>
+                </div>
+
                 <div class="form-group">
                     <label for="password" class="form-label">Mật khẩu *</label>
-                    <input id="password" name="password" type="text" class="form-control">
+                    <input id="password" name="password" type="password" class="form-control" placeholder="Nhập mật khẩu" />
                     <span class="form-message"></span>
                 </div>
+
                 <div class="form-group">
-                    <label for="password" class="form-label">Nhập lại mật khẩu *</label>
-                    <input id="password" name="password" type="text" class="form-control">
+                    <label for="confirmPassword" class="form-label">Nhập lại mật khẩu *</label>
+                    <input id="confirmPassword" name="confirmPassword" type="password" class="form-control" placeholder="Nhập lại mật khẩu" />
                     <span class="form-message"></span>
                 </div>
+
                 <div class="authen__btns">
-                    <div class="btn btn--default">Đăng Kí</div>
+                    <button class="btn btn--default" onclick="registerUser()">Đăng Kí</button>
                 </div>
+
             </div>
         </div>
-        <div class=" modal" id="my-Login">
+
+        <div class="modal" id="my-Login">
             <a href="#" class="overlay-close"></a>
             <div class="authen-modal login">
                 <h3 class="authen-modal__title">Đăng Nhập</h3>
                 <div class="form-group">
-                    <label for="account" class="form-label">Địa chỉ email *</label>
-                    <input id="account" name="account" type="text" class="form-control">
-                    <span class="form-message">Tài khoản không chính xác !</span>
+                    <label for="loginEmail" class="form-label">Tên đăng nhập *</label>
+                    <input id="loginEmail" name="loginEmail" type="email" class="form-control" placeholder="Nhập tên đăng nhập" />
+                    <span class="form-message"></span>
                 </div>
                 <div class="form-group">
-                    <label for="password" class="form-label">Mật khẩu *</label>
-                    <input id="password" name="password" type="text" class="form-control">
+                    <label for="loginPassword" class="form-label">Mật khẩu *</label>
+                    <input id="loginPassword" name="loginPassword" type="password" class="form-control" placeholder="Nhập mật khẩu" />
                     <span class="form-message"></span>
                 </div>
                 <div class="authen__btns">
-                    <div class="btn btn--default">Đăng Nhập</div>
-                    <input type="checkbox" class="authen-checkbox">
-                    <label class="form-label">Ghi nhớ mật khẩu</label>
+                    <button class="btn btn--default" onclick="loginUser()">Đăng Nhập</button>
                 </div>
-                <a class="authen__link">Quên mật khẩu ?</a>
             </div>
         </div>
+
         <div class="up-top" id="upTop" onclick="goToTop()">
             <i class="fas fa-chevron-up"></i>
         </div>
-
     </div>
     <script>
         $('.owl-carousel.hight').owlCarousel({
@@ -454,5 +479,107 @@
     <!-- Script common -->
     <script src="~/Layout/assets/js/homeScript.js"></script>
     <script src="~/Layout/assets/js/commonscript.js"></script>
+    <script>
+        async function registerUser() {
+            const username = document.getElementById("username").value;
+            const password = document.getElementById("password").value;
+            const confirmPassword = document.getElementById("confirmPassword").value;
+            const fullName = document.getElementById("fullName").value;
+            const email = document.getElementById("email").value;
+            const phone = document.getElementById("phone").value;
+
+            if (!username || !password || !confirmPassword || !fullName || !email || !phone) {
+                alert("Vui lòng nhập đầy đủ thông tin!");
+                return;
+            }
+
+            if (password.length < 6) {
+                alert("Mật khẩu phải có ít nhất 6 ký tự!");
+                return;
+            }
+
+            if (password !== confirmPassword) {
+                alert("Mật khẩu không khớp!");
+                return;
+            }
+
+            try {
+                const response = await fetch('/api/auth/register', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ username, password, fullName, email, phone }),
+                });
+
+                if (!response.ok) {
+                    const errorData = await response.json();
+                    throw new Error(errorData.message || "Đăng ký thất bại");
+                }
+
+                const data = await response.json();
+                alert(data.message);
+                window.location.href = "/"; 
+            } catch (error) {
+                alert(error.message);
+            }
+        }
+
+
+
+
+
+        async function loginUser() {
+            try {
+
+                const email = document.getElementById("loginEmail").value;
+                const password = document.getElementById("loginPassword").value;
+
+                // Gửi yêu cầu đăng nhập
+                const response = await fetch('/api/auth/login', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                    },
+                    body: JSON.stringify({ "username": email, "password": password }),
+                });
+
+                // Kiểm tra mã trạng thái của phản hồi
+                if (response.ok) {
+                    // Nếu đăng nhập thành công (HTTP 200)
+                    const data = await response.json();
+                    console.log(data); // Xem thông báo thành công
+
+                    // Chuyển hướng người dùng về trang chủ sau khi đăng nhập thành công
+                    window.location = "/";
+                } else {
+                    // Nếu đăng nhập thất bại (HTTP 401)
+                    const errorData = await response.text(); // Lấy thông báo lỗi
+                    alert(errorData);
+                }
+            } catch (error) {
+                console.error("Lỗi đăng nhập: ", error);
+                alert("Đã có lỗi xảy ra, vui lòng thử lại sau.");
+            }
+        }
+            async function logout() {
+                try {
+                    const response = await fetch('/api/auth/logout', {
+                method: 'get',
+            headers: {
+                'Content-Type': 'application/json'
+                        },
+            credentials: 'include'
+                    });
+
+            if (response.ok) {
+                window.location.href = '/';
+                    } else {
+                console.error('Logout failed:', await response.text());
+                    }
+                } catch (error) {
+                console.error('Error logging out:', error);
+                }
+            }
+
+    </script>
 </body>
 </html>

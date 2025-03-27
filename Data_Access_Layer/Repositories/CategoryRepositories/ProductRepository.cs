@@ -20,7 +20,10 @@ namespace Data_Access_Layer.Repositories.CategoryRepositories
 
         public async Task<IEnumerable<Product>> GetAllProductsAsync()
         {
-            return await _context.Products.ToListAsync();
+            return await _context.Products
+                .Include(p => p.Images)
+                .Include(p => p.Category)
+                .ToListAsync();
         }
 
         public async Task AddProductAsync(Product product)
@@ -31,24 +34,41 @@ namespace Data_Access_Layer.Repositories.CategoryRepositories
             Console.WriteLine("Changes saved successfully.");
         }
 
-        public Task DeleteProductAsync(string productId)
+        public async Task DeleteProductAsync(string productId)
         {
-            throw new NotImplementedException();
+            var product = await _context.Products.FirstOrDefaultAsync(p => p.ProductId == productId);
+            _context.Products.Remove(product);
+            await _context.SaveChangesAsync();
         }
 
-        public Task<Product> GetProductByIdAsync(string productId)
+        public async Task<Product> GetProductByIdAsync(string productId)
         {
-            throw new NotImplementedException();
+            return await _context.Products
+                .Include(p => p.Images)
+                .Include(p => p.Category)
+                .Include(p => p.Feedbacks)
+                .ThenInclude(f => f.Account)
+                .FirstOrDefaultAsync(p => p.ProductId == productId);
         }
 
         public Task<IEnumerable<Product>> GetProductsByCategoryIdAsync(string categoryId)
         {
             throw new NotImplementedException();
         }
-
-        public Task UpdateProductAsync(Product product)
+        public async Task ToggleStatusAsync(String id)
         {
-            throw new NotImplementedException();
+
+            var product = await _context.Products.FindAsync(id);
+            if (product != null)
+            {
+                product.IsActive = !product.IsActive; // Toggle status
+                await _context.SaveChangesAsync();
+            }
+        }
+        public async Task UpdateProductAsync(Product product)
+        {
+            _context.Products.Update(product);
+            await _context.SaveChangesAsync();
         }
     }
 }

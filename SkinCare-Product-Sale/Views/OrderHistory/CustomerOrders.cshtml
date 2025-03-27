@@ -1,0 +1,99 @@
+﻿@model IEnumerable<Data_Access_Layer.Entities.Order>
+
+@{
+    ViewData["Title"] = "Customer Orders";
+    Layout = "_LayoutContact&News";
+}
+<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet" />
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
+<div class="main container" style="min-height: 400px">
+    <h2 class="text-center">Lịch sử đặt hàng</h2>
+
+    <table class="table">
+        <thead>
+            <tr>
+                <th>Mã Đơn</th>
+                <th>Ngày Đặt</th>
+                <th>Trạng Thái</th>
+                <th>Hành Động</th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var order in Model)
+            {
+                var latestPayment = order.Payments.OrderByDescending(p => p.PaymentDate).FirstOrDefault();
+                <tr>
+                    <td>@order.OrderId</td>
+                    <td>@order.OrderDate.ToString("dd/MM/yyyy HH:mm")</td>
+                    <td>@order.Status</td>
+                    <td>
+                        <button class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#orderModal_@order.OrderId">
+                            Xem Chi Tiết
+                        </button>
+                    </td>
+                </tr>
+            }
+        </tbody>
+    </table>
+    @* Đặt modal ngoài tbody nhưng vẫn trong foreach *@
+    @foreach (var order in Model)
+    {
+        <div class="modal fade" id="orderModal_@order.OrderId" tabindex="-1" aria-labelledby="orderModalLabel_@order.OrderId" aria-hidden="true">
+            <div class="modal-dialog modal-lg">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title" id="orderModalLabel_@order.OrderId">Chi tiết đơn hàng #@order.OrderId</h5>
+                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                    </div>
+                    <div class="modal-body">
+                        <h6>Sản phẩm:</h6>
+                        <table class="table table-bordered">
+                            <thead>
+                                <tr>
+                                    <th>Mã SP</th>
+                                    <th>Tên SP</th>
+                                    <th>Số lượng</th>
+                                    <th>Giá</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                @foreach (var detail in order.OrderDetails)
+                                {
+                                    <tr>
+                                        <td>@detail.ProductId</td>
+                                        <td>@detail.Product?.Name</td>
+                                        <td>@detail.Quantity</td>
+                                        <td>@detail.Price.ToString("N0")  đ</td>
+                                    </tr>
+                                }
+                            </tbody>
+                        </table>
+
+                        <h6>Thanh toán:</h6>
+                        <table class="table table-bordered">
+                            <thead>
+                                <tr>
+                                    <th>Phương thức</th>
+                                    <th>Ngày thanh toán</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                @foreach (var payment in order.Payments.OrderByDescending(p => p.PaymentDate))
+                                {
+                                    <tr>
+                                        <td>@payment.PaymentMethod</td>
+                                        <td>@payment.PaymentDate.ToString("dd/MM/yyyy HH:mm")</td>
+                                    </tr>
+                                }
+                            </tbody>
+                        </table>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Đóng</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    }
+    <a asp-controller="CustomerManagement" asp-action="Index" class="btn btn-secondary">Back to Customers</a>
+</div>

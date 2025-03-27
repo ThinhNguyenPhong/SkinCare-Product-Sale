@@ -15,5 +15,6 @@ namespace Business_Layer.Services.ProductServices
         public Task UpdateProductAsync(Product product);
         public Task DeleteProductAsync(string productId);
         public Task<IEnumerable<Product>> GetProductsByCategoryIdAsync(string categoryId);
+        Task ToggleStatusAsync(String id);
     }
 }

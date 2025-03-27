@@ -25,8 +25,14 @@ namespace Data_Access_Layer.Migrations
             modelBuilder.Entity("Data_Access_Layer.Entities.Account", b =>
                 {
                     b.Property<int>("AccountId")
+                        .ValueGeneratedOnAdd()
                         .HasColumnType("int")
                         .HasColumnName("accountId");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("AccountId"));
+
+                    b.Property<bool>("IsActive")
+                        .HasColumnType("bit");
 
                     b.Property<string>("Password")
                         .IsRequired()
@@ -55,8 +61,11 @@ namespace Data_Access_Layer.Migrations
             modelBuilder.Entity("Data_Access_Layer.Entities.Cart", b =>
                 {
                     b.Property<int>("CartId")
+                        .ValueGeneratedOnAdd()
                         .HasColumnType("int")
                         .HasColumnName("cartId");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("CartId"));
 
                     b.Property<int?>("AccountId")
                         .HasColumnType("int")
@@ -73,8 +82,11 @@ namespace Data_Access_Layer.Migrations
             modelBuilder.Entity("Data_Access_Layer.Entities.CartItem", b =>
                 {
                     b.Property<int>("CartItemId")
+                        .ValueGeneratedOnAdd()
                         .HasColumnType("int")
                         .HasColumnName("cartItemId");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("CartItemId"));
 
                     b.Property<int?>("CartId")
                         .HasColumnType("int")
@@ -121,8 +133,11 @@ namespace Data_Access_Layer.Migrations
             modelBuilder.Entity("Data_Access_Layer.Entities.Customer", b =>
                 {
                     b.Property<int>("CustomerId")
+                        .ValueGeneratedOnAdd()
                         .HasColumnType("int")
                         .HasColumnName("customerId");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("CustomerId"));
 
                     b.Property<int?>("AccountId")
                         .HasColumnType("int")
@@ -155,8 +170,11 @@ namespace Data_Access_Layer.Migrations
             modelBuilder.Entity("Data_Access_Layer.Entities.Employee", b =>
                 {
                     b.Property<int>("EmployeeId")
+                        .ValueGeneratedOnAdd()
                         .HasColumnType("int")
                         .HasColumnName("employeeId");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("EmployeeId"));
 
                     b.Property<int?>("AccountId")
                         .HasColumnType("int")
@@ -184,8 +202,11 @@ namespace Data_Access_Layer.Migrations
             modelBuilder.Entity("Data_Access_Layer.Entities.Feedback", b =>
                 {
                     b.Property<int>("FeedbackId")
+                        .ValueGeneratedOnAdd()
                         .HasColumnType("int")
                         .HasColumnName("feedbackId");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("FeedbackId"));
 
                     b.Property<int?>("AccountId")
                         .HasColumnType("int")
@@ -196,12 +217,18 @@ namespace Data_Access_Layer.Migrations
                         .HasColumnType("nvarchar(max)")
                         .HasColumnName("content");
 
+                    b.Property<string>("ProductId")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(50)");
+
                     b.Property<int?>("Rating")
                         .HasColumnType("int")
                         .HasColumnName("rating");
 
                     b.HasKey("FeedbackId")
                         .HasName("PK__Feedback__2613FD24B05CC7C6");
+
+                    b.HasIndex("ProductId");
 
                     b.HasIndex(new[] { "AccountId" }, "IX_Feedback_accountId");
 
@@ -211,8 +238,11 @@ namespace Data_Access_Layer.Migrations
             modelBuilder.Entity("Data_Access_Layer.Entities.Image", b =>
                 {
                     b.Property<int>("ImageId")
+                        .ValueGeneratedOnAdd()
                         .HasColumnType("int")
                         .HasColumnName("imageId");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("ImageId"));
 
                     b.Property<string>("ImageUrl")
                         .IsRequired()
@@ -235,8 +265,11 @@ namespace Data_Access_Layer.Migrations
             modelBuilder.Entity("Data_Access_Layer.Entities.News", b =>
                 {
                     b.Property<int>("NewsId")
+                        .ValueGeneratedOnAdd()
                         .HasColumnType("int")
                         .HasColumnName("newsId");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("NewsId"));
 
                     b.Property<string>("Content")
                         .HasColumnType("nvarchar(max)")
@@ -263,8 +296,11 @@ namespace Data_Access_Layer.Migrations
             modelBuilder.Entity("Data_Access_Layer.Entities.Order", b =>
                 {
                     b.Property<int>("OrderId")
+                        .ValueGeneratedOnAdd()
                         .HasColumnType("int")
                         .HasColumnName("orderId");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("OrderId"));
 
                     b.Property<int?>("AccountId")
                         .HasColumnType("int")
@@ -291,8 +327,11 @@ namespace Data_Access_Layer.Migrations
             modelBuilder.Entity("Data_Access_Layer.Entities.OrderDetail", b =>
                 {
                     b.Property<int>("OrderDetailId")
+                        .ValueGeneratedOnAdd()
                         .HasColumnType("int")
                         .HasColumnName("orderDetailId");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("OrderDetailId"));
 
                     b.Property<int?>("OrderId")
                         .HasColumnType("int")
@@ -324,8 +363,11 @@ namespace Data_Access_Layer.Migrations
             modelBuilder.Entity("Data_Access_Layer.Entities.OrderPromotion", b =>
                 {
                     b.Property<int>("OrderPromotionId")
+                        .ValueGeneratedOnAdd()
                         .HasColumnType("int")
                         .HasColumnName("orderPromotionId");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("OrderPromotionId"));
 
                     b.Property<int?>("OrderId")
                         .HasColumnType("int")
@@ -348,8 +390,11 @@ namespace Data_Access_Layer.Migrations
             modelBuilder.Entity("Data_Access_Layer.Entities.Payment", b =>
                 {
                     b.Property<int>("PaymentId")
+                        .ValueGeneratedOnAdd()
                         .HasColumnType("int")
                         .HasColumnName("paymentId");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("PaymentId"));
 
                     b.Property<int?>("OrderId")
                         .HasColumnType("int")
@@ -376,8 +421,11 @@ namespace Data_Access_Layer.Migrations
             modelBuilder.Entity("Data_Access_Layer.Entities.Point", b =>
                 {
                     b.Property<int>("PointId")
+                        .ValueGeneratedOnAdd()
                         .HasColumnType("int")
                         .HasColumnName("pointId");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("PointId"));
 
                     b.Property<int?>("AccountId")
                         .HasColumnType("int")
@@ -411,8 +459,10 @@ namespace Data_Access_Layer.Migrations
                         .HasColumnType("nvarchar(max)")
                         .HasColumnName("description");
 
+                    b.Property<bool>("IsActive")
+                        .HasColumnType("bit");
+
                     b.Property<string>("Name")
-                        .IsRequired()
                         .HasMaxLength(100)
                         .HasColumnType("nvarchar(100)")
                         .HasColumnName("name");
@@ -432,8 +482,11 @@ namespace Data_Access_Layer.Migrations
             modelBuilder.Entity("Data_Access_Layer.Entities.ProductPromotion", b =>
                 {
                     b.Property<int>("ProductPromotionId")
+                        .ValueGeneratedOnAdd()
                         .HasColumnType("int")
                         .HasColumnName("productPromotionId");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("ProductPromotionId"));
 
                     b.Property<string>("ProductId")
                         .HasMaxLength(50)
@@ -457,8 +510,11 @@ namespace Data_Access_Layer.Migrations
             modelBuilder.Entity("Data_Access_Layer.Entities.Promotion", b =>
                 {
                     b.Property<int>("PromotionId")
+                        .ValueGeneratedOnAdd()
                         .HasColumnType("int")
                         .HasColumnName("promotionId");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("PromotionId"));
 
                     b.Property<decimal>("Discount")
                         .HasColumnType("decimal(5, 2)")
@@ -487,8 +543,11 @@ namespace Data_Access_Layer.Migrations
             modelBuilder.Entity("Data_Access_Layer.Entities.PromotionDetail", b =>
                 {
                     b.Property<int>("PromotionDetailId")
+                        .ValueGeneratedOnAdd()
                         .HasColumnType("int")
                         .HasColumnName("promotionDetailId");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("PromotionDetailId"));
 
                     b.Property<string>("DetailDescription")
                         .IsRequired()
@@ -510,8 +569,11 @@ namespace Data_Access_Layer.Migrations
             modelBuilder.Entity("Data_Access_Layer.Entities.Role", b =>
                 {
                     b.Property<int>("RoleId")
+                        .ValueGeneratedOnAdd()
                         .HasColumnType("int")
                         .HasColumnName("roleId");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("RoleId"));
 
                     b.Property<string>("RoleName")
                         .IsRequired()
@@ -589,7 +651,16 @@ namespace Data_Access_Layer.Migrations
                         .HasForeignKey("AccountId")
                         .HasConstraintName("FK__Feedback__accoun__6EF57B66");
 
+                    b.HasOne("Data_Access_Layer.Entities.Product", "Product")
+                        .WithMany("Feedbacks")
+                        .HasForeignKey("ProductId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired()
+                        .HasConstraintName("FK_Feedback_Product");
+
                     b.Navigation("Account");
+
+                    b.Navigation("Product");
                 });
 
             modelBuilder.Entity("Data_Access_Layer.Entities.Image", b =>
@@ -755,6 +826,8 @@ namespace Data_Access_Layer.Migrations
             modelBuilder.Entity("Data_Access_Layer.Entities.Product", b =>
                 {
                     b.Navigation("CartItems");
+
+                    b.Navigation("Feedbacks");
 
                     b.Navigation("Images");
 

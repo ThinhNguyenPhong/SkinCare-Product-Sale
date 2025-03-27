@@ -5,6 +5,7 @@ using System.Text;
 using System.Threading.Tasks;
 using Data_Access_Layer.Entities;
 using Data_Access_Layer.Repositories.CategoryRepositories;
+using Microsoft.EntityFrameworkCore;
 
 namespace Business_Layer.Services.ProductServices
 {
@@ -27,24 +28,28 @@ namespace Business_Layer.Services.ProductServices
             await _productRepository.AddProductAsync(product);
         }
 
-        public Task DeleteProductAsync(string productId)
+        public async Task DeleteProductAsync(string productId)
         {
-            throw new NotImplementedException();
+            await _productRepository.DeleteProductAsync(productId);
         }
 
         public Task<Product> GetProductByIdAsync(string productId)
         {
-            throw new NotImplementedException();
+            return _productRepository.GetProductByIdAsync(productId);
         }
 
         public Task<IEnumerable<Product>> GetProductsByCategoryIdAsync(string categoryId)
         {
-            throw new NotImplementedException();
+            return _productRepository.GetProductsByCategoryIdAsync(categoryId);
         }
 
-        public Task UpdateProductAsync(Product product)
+        public async Task UpdateProductAsync(Product product)
         {
-            throw new NotImplementedException();
+            await _productRepository.UpdateProductAsync(product);
+        }
+        public async Task ToggleStatusAsync(String id)
+        {
+            await _productRepository.ToggleStatusAsync(id);
         }
     }
 }

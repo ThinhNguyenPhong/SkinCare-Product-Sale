@@ -1,15 +1,20 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations.Schema;
 
 namespace Data_Access_Layer.Entities;
 
 public partial class Account
 {
+    [Key]
+    [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
     public int AccountId { get; set; }
 
     public string Username { get; set; } = null!;
 
     public string Password { get; set; } = null!;
+    public bool IsActive { get; set; } = true; // Default to active
 
     public int? RoleId { get; set; }
 
