@@ -1,0 +1,223 @@
+﻿<div class="footer">
+    <div class="grid wide">
+        <div class="row">
+            <div class="col l-3 m-6 s-12">
+                <h3 class="footer__title">Menu</h3>
+                <ul class="footer__list">
+                    <li class="footer__item">
+                        <a href="#" class="footer__link">Trang điểm</a>
+                    </li>
+                    <li class="footer__item">
+                        <a href="#" class="footer__link">Chăm sóc da</a>
+                    </li>
+                    <li class="footer__item">
+                        <a href="#" class="footer__link">Chăm sóc tóc</a>
+                    </li>
+                    <li class="footer__item">
+                        <a href="#" class="footer__link">Nước hoa</a>
+                    </li>
+                    <li class="footer__item">
+                        <a href="#" class="footer__link">Chăm sóc toàn thân </a>
+                    </li>
+                </ul>
+            </div>
+            <div class="col l-3 m-6 s-12">
+                <h3 class="footer__title">Hỗ trợ khách hàng</h3>
+                <ul class="footer__list">
+                    <li class="footer__item">
+                        <a href="#" class="footer__link">Hướng dẫn mua hàng</a>
+                    </li>
+                    <li class="footer__item">
+                        <a href="#" class="footer__link">Giải đáp thắc mắc</a>
+                    </li>
+                    <li class="footer__item">
+                        <a href="#" class="footer__link">Chính sách mua hàng</a>
+                    </li>
+                    <li class="footer__item">
+                        <a href="#" class="footer__link">Chính sách đổi trả</a>
+                    </li>
+                </ul>
+            </div>
+            <div class="col l-3 m-6 s-12">
+                <h3 class="footer__title">Liên hệ</h3>
+                <ul class="footer__list">
+                    <li class="footer__item">
+                        <span class="footer__text">
+                            <i class="fas fa-map-marked-alt"></i> 319 C16 Lý Thường Kiệt, Phường 15, Quận 11, Tp.HCM
+                        </span>
+                    </li>
+                    <li class="footer__item">
+                        <a href="#" class="footer__link">
+                            <i class="fas fa-phone"></i> 076 922 0162
+                        </a>
+                    </li>
+                    <li class="footer__item">
+                        <a href="#" class="footer__link">
+                            <i class="fas fa-envelope"></i> phuonggiang150@gmail.com
+                        </a>
+                    </li>
+                    <li class="footer__item">
+                        <div class="social-group">
+                            <a href="#" class="social-item">
+                                <i class="fab fa-facebook-f"></i>
+                            </a>
+                            <a href="#" class="social-item">
+                                <i class="fab fa-twitter"></i>
+                            </a>
+                            <a href="#" class="social-item">
+                                <i class="fab fa-pinterest-p"></i>
+                            </a>
+                            <a href="#" class="social-item">
+                                <i class="fab fa-invision"></i>
+                            </a>
+                            <a href="#" class="social-item">
+                                <i class="fab fa-youtube"></i>
+                            </a>
+                        </div>
+                    </li>
+                </ul>
+            </div>
+            <div class="col l-3 m-6 s-12">
+                <h3 class="footer__title">Đăng kí</h3>
+                <ul class="footer__list">
+                    <li class="footer__item">
+                        <span class="footer__text">Đăng ký để nhận được được thông tin ưu đãi mới nhất từ chúng tôi.</span>
+                    </li>
+                    <li class="footer__item">
+                        <div class="send-email">
+                            <input class="send-email__input" type="email" placeholder="Nhập Email...">
+                            <a href="#" class="send-email__link">
+                                <i class="fas fa-paper-plane"></i>
+                            </a>
+                        </div>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </div>
+    <div class="copyright">
+        <span class="footer__text"> &copy Bản quyền thuộc về <a class="footer__link" href="#"> Phương Giang</a></span>
+    </div>
+</div>
+<!-- Modal Form -->
+<!-- Modal Form -->
+<div class="ModalForm">
+    <!-- Modal Đăng Ký -->
+    <div class="modal" id="my-Register">
+        <a href="#" class="overlay-close"></a>
+        <div class="authen-modal register">
+            <h3 class="authen-modal__title">Đăng Kí</h3>
+            <div class="form-group">
+                <label for="fullName" class="form-label">Họ Tên *</label>
+                <input id="fullName" name="fullName" type="text" class="form-control" placeholder="Nhập họ tên"/>
+                <span class="form-message"></span>
+            </div>
+            <div class="form-group">
+                <label for="email" class="form-label">Email *</label>
+                <input id="email" name="email" type="email" class="form-control" placeholder="Nhập địa chỉ email"/>
+                <span class="form-message"></span>
+            </div>
+            <div class="form-group">
+                <label for="password" class="form-label">Mật khẩu *</label>
+                <input id="password" name="password" type="password" class="form-control" placeholder="Nhập mật khẩu"/>
+                <span class="form-message"></span>
+            </div>
+            <div class="form-group">
+                <label for="confirmPassword" class="form-label">Nhập lại mật khẩu *</label>
+                <input id="confirmPassword" name="confirmPassword" type="password" class="form-control" placeholder="Nhập lại mật khẩu"/>
+                <span class="form-message"></span>
+            </div>
+            <div class="authen__btns">
+                <button class="btn btn--default" onclick="registerUser()">Đăng Kí</button>
+            </div>
+        </div>
+    </div>
+
+    <div class="modal" id="my-Login">
+        <a href="#" class="overlay-close"></a>
+        <div class="authen-modal login">
+            <h3 class="authen-modal__title">Đăng Nhập</h3>
+            <div class="form-group">
+                <label for="loginEmail" class="form-label">Tên đăng nhập *</label>
+                <input id="loginEmail" name="loginEmail" type="email" class="form-control" placeholder="Nhập tên đăng nhập"/>
+                <span class="form-message"></span>
+            </div>
+            <div class="form-group">
+                <label for="loginPassword" class="form-label">Mật khẩu *</label>
+                <input id="loginPassword" name="loginPassword" type="password" class="form-control" placeholder="Nhập mật khẩu"/>
+                <span class="form-message"></span>
+            </div>
+            <div class="authen__btns">
+                <button class="btn btn--default" onclick="loginUser()">Đăng Nhập</button>
+                <input type="checkbox" class="authen-checkbox"/>
+                <label class="form-label">Ghi nhớ mật khẩu</label>
+            </div>
+            <a class="authen__link" href="#">Quên mật khẩu ?</a>
+        </div>
+    </div>
+
+    <div class="up-top" id="upTop" onclick="goToTop()">
+        <i class="fas fa-chevron-up"></i>
+    </div>
+</div>
+<script>
+    async function registerUser() {
+        const fullName = document.getElementById("fullName").value;
+        const email = document.getElementById("email").value;
+        const password = document.getElementById("password").value;
+        const confirmPassword = document.getElementById("confirmPassword").value;
+
+        if (password !== confirmPassword) {
+            alert("Mật khẩu không khớp!");
+            return;
+        }
+
+        const response = await fetch('/api/auth/register', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+            },
+            body: JSON.stringify({ fullName, email, password }),
+        });
+
+        const data = await response.json();
+        alert(data.message);
+    }
+
+    async function loginUser() {
+        try {
+            console.log(123); // Kiểm tra xem hàm có được gọi không
+
+            const email = document.getElementById("loginEmail").value;
+            const password = document.getElementById("loginPassword").value;
+
+            // Gửi yêu cầu đăng nhập
+            const response = await fetch('/api/auth/login', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify({ "username": email, "password": password }),
+            });
+
+            // Kiểm tra mã trạng thái của phản hồi
+            if (response.ok) {
+                // Nếu đăng nhập thành công (HTTP 200)
+                const data = await response.json();
+                console.log(data); // Xem thông báo thành công
+
+                // Chuyển hướng người dùng về trang chủ sau khi đăng nhập thành công
+                window.location = "/";
+            } else {
+                // Nếu đăng nhập thất bại (HTTP 401)
+                const errorData = await response.text(); // Lấy thông báo lỗi
+                alert("Đăng nhập thất bại, vui lòng kiểm tra lại tên đăng nhập hoặc mật khẩu.");
+            }
+        } catch (error) {
+            console.error("Lỗi đăng nhập: ", error);
+            alert("Đã có lỗi xảy ra, vui lòng thử lại sau.");
+        }
+    }
+
+
+</script>

@@ -1,0 +1,124 @@
+﻿@model IEnumerable<Data_Access_Layer.Entities.Customer>
+@{
+    var role = Context.Session.GetString("Role");
+}
+@{
+    Layout = "_LayoutContact&News";
+    ViewData["Title"] = "Danh sách khách hàng";
+}
+
+<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet" />
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
+
+<h2>@ViewData["Title"]</h2>
+
+<div class="main container">
+    <table class="table">
+        <thead>
+            <tr>
+                <th>Họ và Tên</th>
+                <th>Email</th>
+                <th>Số điện thoại</th>
+                <th>Tên đăng nhập</th>
+                <th>Hành động</th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var customer in Model)
+            {
+                <tr>
+                    <td>@customer.FullName</td>
+                    <td>@customer.Email</td>
+                    <td>@customer.Phone</td>
+                    <td>@customer?.Account?.Username</td>
+                    <td>
+                        <a class="btn btn-info" asp-controller="OrderHistory" asp-action="CustomerOrders" asp-route-customerId="@customer.AccountId">Đơn hàng</a>
+                        @if (role == "Manager") {
+                        <button class="btn btn-warning" data-bs-toggle="modal" data-bs-target="#editModal"
+                                onclick="loadCustomerData(@customer.AccountId, '@customer.FullName', '@customer.Email', '@customer.Phone')">
+                            Sửa
+                        </button>
+                        @if (customer.Account != null)
+                        {
+                            <form asp-action="ToggleStatus" asp-controller="CustomerManagement" method="post" style="display:inline;">
+                                <input type="hidden" name="id" value="@customer.Account.AccountId" />
+                                <button type="submit" class="btn btn-@(customer.Account.IsActive ? "danger" : "success")">
+                                    @(customer.Account.IsActive ? "Deactivate" : "Activate")
+                                </button>
+                            </form>
+                        }
+                        }
+                    </td>
+                </tr>
+            }
+        </tbody>
+    </table>
+</div>
+
+<!-- Bootstrap Modal -->
+<div class="modal fade" id="editModal" tabindex="-1" aria-labelledby="editModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="editModalLabel">Chỉnh sửa khách hàng</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <form id="editForm">
+                    <input type="hidden" id="editAccountId" />
+
+                    <div class="mb-3">
+                        <label class="form-label">Họ và Tên</label>
+                        <input id="editFullName" class="form-control" />
+                    </div>
+
+                    <div class="mb-3">
+                        <label class="form-label">Email</label>
+                        <input id="editEmail" class="form-control" />
+                    </div>
+
+                    <div class="mb-3">
+                        <label class="form-label">Số điện thoại</label>
+                        <input id="editPhone" class="form-control" />
+                    </div>
+
+                    <button type="button" class="btn btn-primary" onclick="saveCustomer()">Lưu</button>
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Hủy</button>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+<script>
+    
+    function loadCustomerData(id, fullName, email, phone) {
+        document.getElementById("editAccountId").value = id;
+        document.getElementById("editFullName").value = fullName;
+        document.getElementById("editEmail").value = email;
+        document.getElementById("editPhone").value = phone;
+    }
+
+    async function saveCustomer() {
+        const id = document.getElementById("editAccountId").value;
+        const fullName = document.getElementById("editFullName").value;
+        const email = document.getElementById("editEmail").value;
+        const phone = document.getElementById("editPhone").value;
+
+        const response = await fetch(`/CustomerManagement/Edit/${id}`, {
+            method: "POST",
+            headers: {
+                "Content-Type": "application/json",
+                "RequestVerificationToken": document.querySelector("input[name='__RequestVerificationToken']")?.value
+            },
+            body: JSON.stringify({ AccountId: id, FullName: fullName, Email: email, Phone: phone })
+        });
+
+        if (response.ok) {
+            location.reload();
+        } else {
+            alert("Cập nhật thất bại!");
+        }
+    }
+</script>

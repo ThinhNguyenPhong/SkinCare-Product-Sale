@@ -1,0 +1,26 @@
+﻿@model Data_Access_Layer.Entities.Category
+
+@{
+    ViewData["Title"] = "Delete Category";
+}
+
+<h2>Bạn có chắc muốn xóa danh mục này không?</h2>
+
+<div>
+    <h4>Chi tiết danh mục</h4>
+    <hr />
+    <dl class="row">
+        <dt class="col-sm-2">Tên danh mục</dt>
+        <dd class="col-sm-10">@Model.CategoryName</dd>
+
+        <dt class="col-sm-2">Mô tả</dt>
+        <dd class="col-sm-10">@Model.CategoryId</dd>
+    </dl>
+
+    <form asp-action="Delete" method="post">
+        <input type="hidden" name="id" value="@Model.CategoryId" />
+        <button type="submit" class="btn btn-danger">Xác nhận xóa</button>
+        <a asp-action="Index" class="btn btn-secondary">Hủy</a>
+    </form>
+
+</div>

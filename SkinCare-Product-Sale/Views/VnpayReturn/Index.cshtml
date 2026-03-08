@@ -1,0 +1,55 @@
+﻿@{
+    ViewBag.Title = "Kết quả thanh toán VNPAY";
+    bool isSuccess = ViewBag.IsSuccess;
+    Layout = "_LayoutContact&News";
+}
+
+
+<div class="main">
+    <h2 style="text-align: center;font-size: 32px;font-weight: 500;margin-bottom: 50px">
+        @(isSuccess ? "✅ Thanh toán thành công!" : "❌ Thanh toán thất bại!")
+    </h2>
+
+    <table class="table" style="font-size: large;width: 800px;height: 300px; margin:auto">
+        <tr>
+            <th>Mã đơn hàng:</th>
+            <td>@ViewBag.OrderId</td>
+        </tr>
+        <tr>
+            <th>Số tiền:</th>
+            <td>@ViewBag.Amount</td>
+        </tr>
+        <tr>
+            <th>Thông tin đơn hàng:</th>
+            <td>@ViewBag.OrderInfo</td>
+        </tr>
+        <tr>
+            <th>Mã giao dịch VNPAY:</th>
+            <td>@ViewBag.TransactionNo</td>
+        </tr>
+        <tr>
+            <th>Ngân hàng:</th>
+            <td>@ViewBag.BankCode</td>
+        </tr>
+        <tr>
+            <th>Thời gian thanh toán:</th>
+            <td>@ViewBag.PayDate</td>
+        </tr>
+    </table>
+
+    @if (!isSuccess)
+    {
+        <p>Vui lòng thử lại hoặc liên hệ bộ phận hỗ trợ.</p>
+    }
+
+    <div style="display:flex;justify-content:center">
+        <a href="/" class="btn btn--default orange">Quay về trang chủ</a>
+    </div>
+</div>
+
+<style>
+    .payment-result { padding: 20px; max-width: 600px; margin: 0 auto; }
+    .payment-result h2 { margin-bottom: 20px; }
+    .table { width: 100%; }
+    .btn { margin-top: 20px; }
+</style>
